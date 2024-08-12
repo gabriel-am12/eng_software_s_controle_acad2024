@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Bem-vindo, Professor {{ user.username }}!</h2>
+    <h3>Suas Turmas</h3>
+    <ul>
+        <!-- Aqui você pode iterar sobre as turmas do professor -->
+        <li>Turma 1 - Disciplina A</li>
+        <li>Turma 2 - Disciplina B</li>
+        <li>Turma 3 - Disciplina C</li>
+    </ul>
+
+    <h3>Gerenciar Estudantes</h3>
+    <p><a href="#">Adicionar/Remover Estudantes</a></p>
+
+    <h3>Notas e Frequência</h3>
+    <p><a href="#">Visualizar Notas e Frequência dos Estudantes</a></p>
+{% endblock %}
