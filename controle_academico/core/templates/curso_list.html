@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Lista de Cursos</h1>
+    <ul>
+        {% for curso in object_list %}
+            <li><a href="{% url 'curso_detail' curso.id %}">{{ curso.nome }}</a> - {{ curso.descricao }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Criar Novo Curso</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Criar Curso</button>
+    </form>
+{% endblock %}

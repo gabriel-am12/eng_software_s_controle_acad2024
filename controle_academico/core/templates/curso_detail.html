@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Detalhes do Curso: {{ object.nome }}</h1>
+    <p>{{ object.descricao }}</p>
+
+    <h2>Disciplinas</h2>
+    <ul>
+        {% for disciplina in object.disciplinas.all %}
+            <li><a href="{% url 'disciplina_detail' disciplina.id %}">{{ disciplina.nome }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Atualizar Curso</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Atualizar Curso</button>
+    </form>
+
+    <h2>Excluir Curso</h2>
+    <form method="post" action="{% url 'curso_delete' object.id %}">
+        {% csrf_token %}
+        <button type="submit">Excluir Curso</button>
+    </form>
+    
+    <a href="{% url 'curso_list' %}">Voltar para a lista de cursos</a>
+{% endblock %}

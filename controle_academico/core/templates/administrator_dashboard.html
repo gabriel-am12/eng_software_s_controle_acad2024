@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Bem-vindo, Admin {{ user.username }}!</h2>
-    <h3>Gerenciamento do Sistema</h3>
-    <ul>
-        <li><a href="#">Gerenciar Cursos</a></li>
-        <li><a href="#">Gerenciar Disciplinas</a></li>
-        <li><a href="#">Gerenciar Usuários</a></li>
-    </ul>
-
-    <h3>Relatórios</h3>
-    <p><a href="#">Gerar Relatórios de Desempenho</a></p>
+<h1>Painel do Administrador</h1>
+<ul>
+    <li><a href="{% url 'curso_list' %}">Gerenciar Cursos</a></li>
+    <li><a href="{% url 'disciplina_list' %}">Gerenciar Disciplinas</a></li>
+    <li><a href="{% url 'turma_list' %}">Gerenciar Turmas</a></li>
+</ul>
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Detalhes da Turma: {{ object.semestre }}</h1>
+    <p>Disciplina: <a href="{% url 'disciplina_detail' object.disciplina.id %}">{{ object.disciplina.nome }}</a></p>
+
+    <h2>Professores</h2>
+    <ul>
+        {% for professor in object.professores.all %}
+            <li>{{ professor.nome }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Alunos</h2>
+    <ul>
+        {% for aluno in object.alunos.all %}
+            <li>{{ aluno.nome }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Atualizar Turma</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Atualizar Turma</button>
+    </form>
+
+    <h2>Excluir Turma</h2>
+    <form method="post" action="{% url 'turma_delete' object.id %}">
+        {% csrf_token %}
+        <button type="submit">Excluir Turma</button>
+    </form>
+
+    <a href="{% url 'turma_list' %}">Voltar para a lista de turmas</a>
+{% endblock %}
