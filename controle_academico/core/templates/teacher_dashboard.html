@@ -4,15 +4,23 @@
     <h2>Bem-vindo, Professor {{ user.username }}!</h2>
     <h3>Suas Turmas</h3>
     <ul>
-        <!-- Aqui você pode iterar sobre as turmas do professor -->
-        <li>Turma 1 - Disciplina A</li>
-        <li>Turma 2 - Disciplina B</li>
-        <li>Turma 3 - Disciplina C</li>
+        {% for turma in turmas %}
+            <li><a href="{% url 'registrar_frequencia' turma.id %}">{{ turma.nome }} - {{ turma.disciplina }}</a></li>
+        {% endfor %}
     </ul>
 
     <h3>Gerenciar Estudantes</h3>
     <p><a href="#">Adicionar/Remover Estudantes</a></p>
 
     <h3>Notas e Frequência</h3>
-    <p><a href="#">Visualizar Notas e Frequência dos Estudantes</a></p>
+    <ul>
+        {% for turma in turmas %}
+            <li>
+                <a href="{% url 'registrar_frequencia' turma.id %}">Registrar Frequência para {{ turma.nome }} - {{ turma.disciplina }}</a>
+            </li>
+            <li>
+                <a href="{% url 'registrar_nota' turma.id %}">Registrar Notas para {{ turma.nome }} - {{ turma.disciplina }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}

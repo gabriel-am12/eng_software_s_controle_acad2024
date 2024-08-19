@@ -14,6 +14,8 @@ class Profile(models.Model):
         return self.user.username
 
 class Professor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null = True)
     nome = models.CharField(max_length=100)
     email = models.EmailField()
 
@@ -29,7 +31,7 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.nome
-        
+       
     
 class Curso(models.Model):
     nome = models.CharField(max_length=100)
@@ -56,3 +58,21 @@ class Turma(models.Model):
 
     def __str__(self):
         return f'{self.disciplina.nome} - {self.semestre}'
+    
+class Frequencia(models.Model):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    data = models.DateField()
+    presente = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.aluno} - {self.turma} - {self.data}'
+    
+class Nota(models.Model):
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
+    avaliacao = models.IntegerField(choices=[(1, 'Avaliação 1'), (2, 'Avaliação 2'), (3, 'Avaliação 3'), (4, 'Avaliação 4')])
+    nota = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.aluno} - {self.turma} - Avaliação {self.avaliacao}: {self.nota}'    

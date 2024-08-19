@@ -62,4 +62,17 @@ class Migration(migrations.Migration):
                 ('professores', models.ManyToManyField(related_name='turmas', to='core.professor')),
             ],
         ),
+        #a partir daqui, caso precise apagar
+        migrations.AddField(
+            model_name='aluno',
+            name='profile',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, default=18, to='core.Profile'),
+            preserve_default=False,
+        ),
+        migrations.AddField(
+            model_name='aluno',
+            name='user',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, default=18, to='auth.User'),
+            preserve_default=False,
+        ),
     ]

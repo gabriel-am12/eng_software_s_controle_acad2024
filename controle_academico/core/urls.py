@@ -9,7 +9,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     # Estudante, Professor e Administrador
     path('student/', views.student_dashboard, name='student_dashboard'),
-    path('teacher/', views.teacher_dashboard, name='teacher_dashboard'),
+    path('teacher/', views.TeacherDashboardView.as_view(), name='teacher_dashboard'),
     path('administrator/', views.administrator_dashboard, name='administrator_dashboard'),
     # Curso
     path('cursos/', views.CursoListView.as_view(), name='curso_list'),
@@ -29,4 +29,6 @@ urlpatterns = [
     #path('turmas/create/', views.TurmaCreateView.as_view(), name='turma_create'),
     #path('turmas/<int:pk>/update/', views.TurmaUpdateView.as_view(), name='turma_update'),
     path('turmas/<int:pk>/delete/', views.TurmaDeleteView.as_view(), name='turma_delete'),
+    path('turmas/<int:turma_id>/registrar_frequencia/', views.RegistrarFrequenciaView.as_view(), name='registrar_frequencia'),
+    path('turmas/<int:turma_id>/registrar_nota/', views.RegistrarNotaView.as_view(), name='registrar_nota'),
 ]

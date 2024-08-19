@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Curso, Disciplina, Turma, Professor, Aluno
+from .models import Profile, Curso, Disciplina, Turma, Professor, Aluno, Frequencia, Nota
 
 class SignUpForm(UserCreationForm):
     user_type = forms.ChoiceField(choices=Profile.USER_TYPES, required=True, label="Eu sou")
@@ -14,8 +14,6 @@ class SignUpForm(UserCreationForm):
         user = super().save(commit=False)
         if commit:
             user.save()
-            #profile = Profile(user=user, user_type=self.cleaned_data['user_type'])
-            #profile.save()
             profile = Profile.objects.create(
                 user=user,
                 user_type=self.cleaned_data['user_type']
@@ -37,18 +35,17 @@ class DisciplinaForm(forms.ModelForm):
         fields = ['nome', 'carga_horaria', 'prerequisitos', 'programa', 'curso']
 
 class TurmaForm(forms.ModelForm):
-    # professores = forms.ModelMultipleChoiceField(
-    #     queryset=Professor.objects.all(),
-    #     # widget=forms.CheckboxSelectMultiple,
-    #     required=True
-    # )
-    # alunos = forms.ModelMultipleChoiceField(
-    #     queryset=Aluno.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,
-    #     required=True
-    # )
-
     class Meta:
         model = Turma
         fields = ['disciplina', 'semestre', 'professores', 'alunos']
+
+class FrequenciaForm(forms.ModelForm):
+    class Meta:
+        model = Frequencia
+        fields = ['data', 'presente']
+
+class NotaForm(forms.ModelForm):
+    class Meta:
+        model = Nota
+        fields = ['avaliacao', 'nota']
         
