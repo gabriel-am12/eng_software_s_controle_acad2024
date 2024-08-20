@@ -1,0 +1,14 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+    <h2>Bem-vindo, {{ user.username }}!</h2>
+    <h3>Turma: {{ turma.id }} | {{ turma.disciplina.nome }}</h3>
+    
+    <h3>Sua Frequência</h3>
+    <p>Você está presente em {{ frequencia }} das aulas.</p>
+
+    <h3>Suas Notas</h3>
+    {% for nota in notas %}
+        <p>Avaliação {{ nota.avaliacao }}: {{ nota.nota }}</p>
+    {% endfor %}
+{% endblock %}

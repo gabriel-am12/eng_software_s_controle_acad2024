@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Lista de Turmas</h1>
+    <ul>
+        {% for turma in object_list %}
+            <li><a href="{% url 'turma_detail' turma.id %}">{{ turma.semestre }} - {{ turma.disciplina.nome }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Criar Nova Turma</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Criar Turma</button>
+    </form>
+
+    <a href="{% url 'disciplina_list' %}">Voltar para a lista de disciplinas</a>
+{% endblock %}

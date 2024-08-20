@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Painel do Administrador</h1>
+<ul>
+    <li><a href="{% url 'curso_list' %}">Gerenciar Cursos</a></li>
+    <li><a href="{% url 'disciplina_list' %}">Gerenciar Disciplinas</a></li>
+    <li><a href="{% url 'turma_list' %}">Gerenciar Turmas</a></li>
+</ul>
+{% endblock %}
