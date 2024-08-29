@@ -22,15 +22,16 @@ class Professor(models.Model):
     def __str__(self):
         return self.nome
 
-class Aluno(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=100)
-    matricula = models.CharField(max_length=15)
-    email = models.EmailField()
+#class Aluno(models.Model):
+#    user = models.OneToOneField(User, on_delete=models.CASCADE)
+#    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+#    nome = models.CharField(max_length=100)
+#    matricula = models.CharField(max_length=15)
+#    email = models.EmailField()
+#    turmas = models.ManyToManyField(Turma, related_name="alunos")
 
-    def __str__(self):
-        return self.nome
+#    def __str__(self):
+#        return self.nome
        
     
 class Curso(models.Model):
@@ -54,10 +55,21 @@ class Turma(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, related_name='turmas')
     semestre = models.CharField(max_length=6)  # Ex: "2024-1"
     professores = models.ManyToManyField('Professor', related_name='turmas')
-    alunos = models.ManyToManyField('Aluno', related_name='turmas')
+    alunos = models.ManyToManyField('Aluno', related_name='turmas_set')
 
     def __str__(self):
         return f'{self.disciplina.nome} - {self.semestre}'
+    
+class Aluno(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=100)
+    matricula = models.CharField(max_length=15)
+    email = models.EmailField()
+    turmas = models.ManyToManyField(Turma, related_name="alunos_set")
+
+    def __str__(self):
+        return self.nome
     
 class Frequencia(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)

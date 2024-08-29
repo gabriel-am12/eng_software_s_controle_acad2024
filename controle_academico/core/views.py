@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse, reverse_lazy
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+#from reportlab.lib.pagesizes import letter
+#from reportlab.pdfgen import canvas
 from .models import Profile, Curso, Disciplina, Turma, Aluno, Professor, Frequencia, Nota
-from .forms import SignUpForm, CursoForm, DisciplinaForm, TurmaForm, FrequenciaForm, NotaForm
+from .forms import SignUpForm, CursoForm, DisciplinaForm, TurmaForm, FrequenciaForm, NotaForm, TeacherAdicionarRemoverEstudantesForm
 
 # Redirect, Registro e Login
 def redirect_user_based_on_type(user):
@@ -38,18 +42,41 @@ def login_view(request):
     return render(request, 'login.html')
 
 # Estudante, Professor e Administrador
-def student_dashboard(request):
-    return render(request, 'student_dashboard.html')
+class StudentDashboardView(View):
+    def get(self, request, *args, **kwargs):
+        aluno = get_object_or_404(Aluno, user=request.user)
+        turmas = aluno.turmas_set.all()
+        frequencias = Frequencia.objects.filter(aluno=aluno)
+        notas = Nota.objects.filter(aluno=aluno)
+
+
+        print(f"Turmas do aluno {aluno.user.username}: {turmas}")
+        print(f"Frequências do aluno: {frequencias}")
+        print(f"Notas do aluno: {notas}")
+
+        context = {
+            'turmas': turmas,
+            'frequencias': frequencias,
+            'notas': notas,
+        }
+        return render(request, 'student_dashboard.html', context)
 
 class TeacherDashboardView(View):
     def get(self, request):
         professor = request.user.professor  
-        turmas = Turma.objects.filter(professores=professor)
-        context = {'turmas': turmas}
+        turmas = Turma.objects.filter(professores=professor)  
+        alunos = Aluno.objects.filter(turmas_set__in=turmas).distinct()  
+        context = {'turmas': turmas, 'alunos': alunos}
         return render(request, 'teacher_dashboard.html', context)
 
-def administrator_dashboard(request):
-    return render(request, 'administrator_dashboard.html')
+class AdministratorDashboardView(View):
+    def get(self, request):
+        alunos = Aluno.objects.all()
+        context = {
+            'alunos': alunos,
+        }
+        return render(request, 'administrator_dashboard.html', context)
+
 
 # Curso, Turma e Disciplina
 class CursoListView(ListView):
@@ -115,7 +142,7 @@ class TurmaListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = TurmaForm()
-        context['alunos'] = Aluno.objects.all()  # Certifique-se de que este queryset retorna os alunos registrados corretamente
+        context['alunos'] = Aluno.objects.all()  
         context['professores'] = Professor.objects.all()  
         return context
 
@@ -153,26 +180,29 @@ class TurmaDeleteView(DeleteView):
     template_name = 'turma_confirm_delete.html'
     success_url = reverse_lazy('turma_list')
 
-# Frequência e Nota
+# Frequência e Nota - teacher_dashboard
 
 class RegistrarFrequenciaView(View):
     def get(self, request, turma_id):
         turma = Turma.objects.get(id=turma_id)
         alunos = turma.alunos.all()
+        frequencias = Frequencia.objects.filter(turma=turma)
         form = FrequenciaForm()
-        context = {'turma': turma, 'alunos': alunos, 'form': form}
+        context = {'turma': turma, 'alunos': alunos, 'frequencias': frequencias ,'form': form}
         return render(request, 'registrar_frequencia.html', context)
 
     def post(self, request, turma_id):
         turma = Turma.objects.get(id=turma_id)
-        form = FrequenciaForm(request.POST)
-        if form.is_valid():
-            for aluno in turma.alunos.all():
-                frequencia = form.save(commit=False)
-                frequencia.aluno = aluno
-                frequencia.turma = turma
-                frequencia.save()
-            #return redirect(reverse('turma_detail', args=[turma_id]))
+        alunos = turma.alunos.all()
+        data = request.POST.get('data')
+        for aluno in alunos:
+            presente = request.POST.get(f'presente_{aluno.id}') is not None
+            frequencia, created = Frequencia.objects.update_or_create(
+                aluno=aluno,
+                turma=turma,
+                data=data,
+                defaults={'presente': presente}
+            )
             return redirect('teacher_dashboard')
         return render(request, 'registrar_frequencia.html', {'turma': turma, 'alunos': turma.alunos.all(), 'form': form})
 
@@ -180,19 +210,73 @@ class RegistrarNotaView(View):
     def get(self, request, turma_id):
         turma = Turma.objects.get(id=turma_id)
         alunos = turma.alunos.all()
-        form = NotaForm()
-        context = {'turma': turma, 'alunos': alunos, 'form': form}
+        notas = Nota.objects.filter(turma=turma)
+        
+        context = {
+            'turma': turma,
+            'alunos': alunos,
+            'notas': notas
+        }
+        
         return render(request, 'registrar_nota.html', context)
 
     def post(self, request, turma_id):
         turma = Turma.objects.get(id=turma_id)
-        form = NotaForm(request.POST)
-        if form.is_valid():
-            for aluno in turma.alunos.all():
-                nota = form.save(commit=False)
-                nota.aluno = aluno
-                nota.turma = turma
-                nota.save()
-            #return redirect('detalhes_turma', turma_id=turma.id)
-            return redirect('teacher_dashboard')
-        return render(request, 'registrar_nota.html', {'form': form, 'turma': turma})
+        alunos = turma.alunos.all()
+
+        for aluno in alunos:
+            avaliacao = request.POST.get(f'avaliacao_{aluno.id}')
+            nota_valor = request.POST.get(f'nota_{aluno.id}')
+
+            if avaliacao and nota_valor:
+                nota, created = Nota.objects.get_or_create(
+                    aluno=aluno,
+                    turma=turma,
+                    avaliacao=avaliacao,
+                    defaults={'nota': nota_valor}
+                )
+                if not created:
+                    nota.nota = nota_valor
+                    nota.save()
+        return redirect('registrar_nota', turma_id=turma.id)
+
+class TeacherAdicionarRemoverEstudantesView(View):
+    def get(self, request, turma_id):
+        turma = get_object_or_404(Turma, id=turma_id)
+        alunos = Aluno.objects.all()
+        alunos_turma = turma.alunos.all()  
+
+        context = {
+            'turma': turma,
+            'alunos': alunos,
+            'alunos_turma': alunos_turma
+        }
+        return render(request, 'gerenciar_estudantes.html', context)
+
+    def post(self, request, turma_id):
+        turma = get_object_or_404(Turma, id=turma_id)
+        selected_students = request.POST.getlist('alunos')  # Obtém os alunos selecionados
+        turma.alunos.set(selected_students)
+        turma.save()
+        return redirect('teacher_dashboard')
+
+# Relatórios / Boletins
+class RelatorioAlunoView(View):
+    def get(self, request, aluno_id):
+        aluno = get_object_or_404(Aluno, pk=aluno_id)
+        turmas = Turma.objects.filter(alunos=aluno).select_related('disciplina__curso')
+        notas = Nota.objects.filter(aluno=aluno)
+        frequencias = Frequencia.objects.filter(aluno=aluno)
+        
+        previous_url = request.META.get('HTTP_REFERER', '/teacher_dashboard')
+
+        context = {
+            'aluno': aluno,
+            'turmas': turmas,
+            'notas': notas,
+            'frequencias': frequencias,
+            'redirect_url': previous_url,
+        }
+
+        return render(request,'relatorio_aluno.html', context)
+    

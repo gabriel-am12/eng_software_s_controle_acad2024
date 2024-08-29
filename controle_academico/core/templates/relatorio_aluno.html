@@ -1,0 +1,27 @@
+<h2>Relatório de Desempenho - {{ aluno.user.username }}</h2>
+
+<h3>Cursos, Disciplinas e Turmas</h3>
+<ul>
+    {% for turma in turmas %}
+    <li>{{ turma.disciplina.curso.nome }} - {{ turma.disciplina.nome }} (Professor: {% for professor in turma.professores.all %}{{ professor.user.username }}{% if not forloop.last %}, {% endif %}{% endfor %})</li>
+    {% endfor %}
+</ul>
+
+<h3>Frequências</h3>
+<ul>
+    {% for frequencia in frequencias %}
+    <li>{{ frequencia.data }}: {% if frequencia.presente %}Presente{% else %}Ausente{% endif %}</li>
+    {% endfor %}
+</ul>
+
+<h3>Notas</h3>
+<ul>
+    {% for nota in notas %}
+        <li>{{ nota.turma.disciplina.nome }} - Avaliação {{ nota.avaliacao }}: {{ nota.nota }}</li>
+    {% endfor %}
+</ul>
+
+<p>
+    <a href="{{ redirect_url }}">Voltar</a>
+</p>
+

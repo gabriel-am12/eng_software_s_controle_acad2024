@@ -6,5 +6,14 @@
     <li><a href="{% url 'curso_list' %}">Gerenciar Cursos</a></li>
     <li><a href="{% url 'disciplina_list' %}">Gerenciar Disciplinas</a></li>
     <li><a href="{% url 'turma_list' %}">Gerenciar Turmas</a></li>
+    <li>
+        Relatórios de Alunos:
+        <ul>
+            {% for aluno in alunos %}
+                <li><a href="{% url 'relatorio_aluno' aluno.id %}">{{ aluno.user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
 </ul>
+
 {% endblock %}

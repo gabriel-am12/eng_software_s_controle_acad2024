@@ -10,7 +10,11 @@
     </ul>
 
     <h3>Gerenciar Estudantes</h3>
-    <p><a href="#">Adicionar/Remover Estudantes</a></p>
+    <ul>
+        {% for turma in turmas %}
+            <li><a href="{% url 'gerenciar_estudantes' turma.id %}">Adicionar/Remover Estudantes para {{ turma.nome }} - {{ turma.disciplina }}</a></li>
+        {% endfor %}
+    </ul>
 
     <h3>Notas e Frequência</h3>
     <ul>
@@ -23,4 +27,12 @@
             </li>
         {% endfor %}
     </ul>
+
+    <h3>Relatórios de Alunos</h3>
+        <ul>
+            {% for aluno in alunos %}
+                <li><a href="{% url 'relatorio_aluno' aluno.id %}">{{ aluno.user.username }}</a></li>
+            {% endfor %}
+        </ul>
+
 {% endblock %}

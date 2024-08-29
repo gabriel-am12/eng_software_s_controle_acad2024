@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Gerenciar Estudantes na Turma {{ turma.nome }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <ul>
+        {% for aluno in alunos %}
+            <li>
+                <input type="checkbox" name="alunos" value="{{ aluno.id }}"
+                    {% if aluno in alunos_turma %}checked{% endif %}>
+                {{ aluno.user.username }}
+            </li>
+        {% endfor %}
+    </ul>
+    <button type="submit">Salvar Alterações</button>
+</form>
+
+<a href="{% url 'teacher_dashboard' %}">Voltar para o Painel do Professor</a>
+{% endblock %}

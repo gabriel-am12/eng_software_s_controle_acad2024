@@ -48,4 +48,21 @@ class NotaForm(forms.ModelForm):
     class Meta:
         model = Nota
         fields = ['avaliacao', 'nota']
+
+class TeacherAdicionarRemoverEstudantesForm(forms.Form):
+    alunos = forms.ModelMultipleChoiceField(
+        queryset=Aluno.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.turma = kwargs.pop('turma', None)
+        super(TeacherAdicionarRemoverEstudantesForm, self).__init__(*args, **kwargs)
+        if self.turma:
+            self.fields['alunos'].initial = self.turma.alunos.all()
+
+    def save(self):
+        alunos_selecionados = self.cleaned_data['alunos']
+        self.turma.alunos.set(alunos_selecionados)
         

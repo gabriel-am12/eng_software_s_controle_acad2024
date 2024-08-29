@@ -6,13 +6,28 @@
 
 <form method="post">
     {% csrf_token %}
+
     <table>
-      {% for aluno in alunos %}
         <tr>
-          <td>{{ aluno.username }}</td>
-          <td><input type="checkbox" name="presente_{{ aluno.id }}"></td>
+            <th>Aluno</th>
+            <th>Presente</th>
+            <th>Data</th>
         </tr>
-      {% endfor %}
+        {% for aluno in alunos %}
+        <tr>
+          <td>{{ aluno.user.username }}</td>
+          <td>
+              <input type="checkbox" name="presente_{{ aluno.id }}">
+          </td>
+          <td>
+              {% for frequencia in frequencias %}
+                  {% if frequencia.aluno == aluno %}
+                      <p>{{ frequencia.data }}: {% if frequencia.presente %}Presente{% else %}Ausente{% endif %}</p>
+                  {% endif %}
+              {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
     </table>
     <input type="date" name="data" required>
     <button type="submit">Salvar Frequência</button>

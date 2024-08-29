@@ -8,9 +8,9 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     # Estudante, Professor e Administrador
-    path('student/', views.student_dashboard, name='student_dashboard'),
+    path('student/', views.StudentDashboardView.as_view(), name='student_dashboard'),
     path('teacher/', views.TeacherDashboardView.as_view(), name='teacher_dashboard'),
-    path('administrator/', views.administrator_dashboard, name='administrator_dashboard'),
+    path('administrator/', views.AdministratorDashboardView.as_view(), name='administrator_dashboard'),
     # Curso
     path('cursos/', views.CursoListView.as_view(), name='curso_list'),
     path('cursos/<int:pk>/', views.CursoDetailView.as_view(), name='curso_detail'),
@@ -31,4 +31,6 @@ urlpatterns = [
     path('turmas/<int:pk>/delete/', views.TurmaDeleteView.as_view(), name='turma_delete'),
     path('turmas/<int:turma_id>/registrar_frequencia/', views.RegistrarFrequenciaView.as_view(), name='registrar_frequencia'),
     path('turmas/<int:turma_id>/registrar_nota/', views.RegistrarNotaView.as_view(), name='registrar_nota'),
+    path('turmas/<int:turma_id>/gerenciar_estudantes/', views.TeacherAdicionarRemoverEstudantesView.as_view(), name='gerenciar_estudantes'),
+    path('relatorio_aluno/<int:aluno_id>/', views.RelatorioAlunoView.as_view(), name='relatorio_aluno'),
 ]

@@ -14,7 +14,7 @@
         </tr>
         {% for aluno in alunos %}
             <tr>
-                <td>{{ aluno.username }}</td>
+                <td>{{ aluno.user.username }}</td>
                 <td>
                     <select name="avaliacao_{{ aluno.id }}">
                         <option value="1">Avaliação 1</option>
@@ -31,6 +31,22 @@
     </table>
     <button type="submit">Salvar Notas</button>
 </form>
+
+<h3>Notas Registradas</h3>
+<table>
+    <tr>
+        <th>Aluno</th>
+        <th>Avaliação</th>
+        <th>Nota</th>
+    </tr>
+    {% for nota in notas %}
+    <tr>
+        <td>{{ nota.aluno.user.username }}</td>
+        <td>{{ nota.avaliacao }}</td>
+        <td>{{ nota.nota }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 <a href="{% url 'teacher_dashboard' %}">Voltar para o Painel do Professor</a>
 

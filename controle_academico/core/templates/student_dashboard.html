@@ -2,19 +2,37 @@
 
 {% block content %}
     <h2>Bem-vindo, {{ user.username }}!</h2>
-    <h3>Suas Disciplinas</h3>
+    
+    <h3>Suas Turmas</h3>
     <ul>
-        <!-- Aqui você pode iterar sobre as disciplinas do estudante -->
-        <li>Disciplina 1</li>
-        <li>Disciplina 2</li>
-        <li>Disciplina 3</li>
+        {% for turma in turmas %}
+            <li>{{ turma.nome }} - {{ turma.disciplina.nome }}</li>
+        {% empty %}
+            <li>Você não está matriculado em nenhuma turma.</li>
+        {% endfor %}
     </ul>
 
     <h3>Sua Frequência</h3>
-    <p>Você está presente em 90% das aulas.</p>
+    <ul>
+        {% for frequencia in frequencias %}
+            <li>{{ frequencia.data }}: 
+                {% if frequencia.presente %}
+                    Presente
+                {% else %}
+                    Ausente
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Não há registros de frequência.</li>
+        {% endfor %}
+    </ul>
 
     <h3>Suas Notas</h3>
-    <p>Disciplina 1: 8.5</p>
-    <p>Disciplina 2: 7.0</p>
-    <p>Disciplina 3: 9.0</p>
+    <ul>
+        {% for nota in notas %}
+            <li>{{ nota.turma.disciplina.nome }} - Avaliação {{ nota.avaliacao }}: {{ nota.nota }}</li>
+        {% empty %}
+            <li>Não há notas registradas.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
