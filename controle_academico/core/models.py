@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-class Profile(models.Model):
+class Perfil(models.Model):
     USER_TYPES = (
         ('student', 'Estudante'),
         ('teacher', 'Professor'),
@@ -13,27 +13,28 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Professor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null = True)
+    profile = models.OneToOneField(Perfil, on_delete=models.CASCADE, null = True)
     nome = models.CharField(max_length=100)
     email = models.EmailField()
 
     def __str__(self):
         return self.nome
 
-#class Aluno(models.Model):
-#    user = models.OneToOneField(User, on_delete=models.CASCADE)
-#    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-#    nome = models.CharField(max_length=100)
-#    matricula = models.CharField(max_length=15)
-#    email = models.EmailField()
-#    turmas = models.ManyToManyField(Turma, related_name="alunos")
 
-#    def __str__(self):
-#        return self.nome
+class Aluno(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile = models.OneToOneField(Perfil, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=100)
+    matricula = models.CharField(max_length=15)
+    email = models.EmailField()
 
-    
+    def __str__(self):
+        return self.nome
+
+
 class Curso(models.Model):
     nome = models.CharField(max_length=100)
     descricao = models.TextField()
@@ -41,6 +42,7 @@ class Curso(models.Model):
     def __str__(self):
         return self.nome
     
+
 class Disciplina(models.Model):
     nome = models.CharField(max_length=100)
     carga_horaria = models.IntegerField()
@@ -51,6 +53,7 @@ class Disciplina(models.Model):
     def __str__(self):
         return self.nome
 
+
 class Turma(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, related_name='turmas')
     semestre = models.CharField(max_length=6)  # Ex: "2024-1"
@@ -59,17 +62,7 @@ class Turma(models.Model):
 
     def __str__(self):
         return f'{self.disciplina.nome} - {self.semestre}'
-    
-class Aluno(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=100)
-    matricula = models.CharField(max_length=15)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.nome
-    
+ 
 class Frequencia(models.Model):
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     turma = models.ForeignKey(Turma, on_delete=models.CASCADE)
