@@ -1,0 +1,33 @@
+{% extends 'aluno/base.html' %}
+
+{% block content %}
+    <h2>Bem-vindo, {{ user.username }}!</h2>
+        
+    <h3>Suas Turmas</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Dsiciplina</th>
+                <th>Semestre</th>
+                <th>Acessar</th>
+            </tr>
+        </thead>
+    
+        {% for turma in turmas %}
+        <tr>
+            <td>{{ turma.id }}</td>
+            <td>{{ turma.disciplina.nome }}</td>
+            <td>{{ turma.semestre }}º semestre</td>
+            <td><a href="{% url 'aluno_turma_details' turma.id %}">Acessar</a></td>
+        </tr>
+        {% empty %}
+            <tr>
+                <td>
+                    Você não está matriculado em nenhuma turma.
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock%}

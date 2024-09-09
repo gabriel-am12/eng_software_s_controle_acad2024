@@ -1,36 +1,48 @@
 from django.urls import path
 from django.shortcuts import redirect
-from . import views
+from . import views, views_aluno, views_professor, views_administrador
 
 urlpatterns = [
     # Login e Registro
-    path('', lambda request: redirect('login')),
+    path('', views.redirect_user_based_on_type),
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
-    # Estudante, Professor e Administrador
-    path('student/', views.StudentDashboardView.as_view(), name='student_dashboard'),
-    path('teacher/', views.TeacherDashboardView.as_view(), name='teacher_dashboard'),
-    path('administrator/', views.AdministratorDashboardView.as_view(), name='administrator_dashboard'),
-    # Curso
-    path('cursos/', views.CursoListView.as_view(), name='curso_list'),
-    path('cursos/<int:pk>/', views.CursoDetailView.as_view(), name='curso_detail'),
-    #path('cursos/create/', views.CursoCreateView.as_view(), name='curso_create'),
-    #path('cursos/<int:pk>/update/', views.CursoUpdateView.as_view(), name='curso_update'),
-    path('cursos/<int:pk>/delete/', views.CursoDeleteView.as_view(), name='curso_delete'),
+    path('logout/', views.logout_view, name='logout'),
+
+    # ---------------------------- Estudante ----------------------------------
+
+    path('aluno/', views_aluno.home_view, name='aluno_inicio'),
+    path('aluno/turma/<int:turma_id>/', views_aluno.turma_view, name='aluno_turma_details'),
+    path('aluno/turma/<int:turma_id>/boletim/', views_aluno.boletim_view, name='aluno_turma_boletim'),
+    
+    # ---------------------------- Professor ----------------------------------
+
+    path('professor/', views_professor.home_view, name='professor_inicio'),
+    path('professor/turma/<int:turma_id>/', views_professor.turma_details_view, name='professor_turma_details'),
+
+    # ---------------------------- Administrador ------------------------------
+
+    path('administrador/', views_administrador.home_view, name='administrador_inicio'),
+
+    # Turma
+    path('administrador/turmas/', views_administrador.turma_list_view, name='administrador_turma_list'),
+    path('administrador/turmas/create', views_administrador.turma_create_view, name='administrador_turma_create'),
+    path('administrador/turmas/<int:pk>', views_administrador.turma_details_view, name='administrador_turma_details'),
+    path('administrador/turmas/<int:pk>/edit', views_administrador.turma_update_view, name='administrador_turma_update'),
+    path('administrador/turmas/<int:pk>/delete', views_administrador.turma_delete_view, name='administrador_turma_delete'),
+
     # Disciplina
-    path('disciplinas/', views.DisciplinaListView.as_view(), name='disciplina_list'),
-    path('disciplinas/<int:pk>/', views.DisciplinaDetailView.as_view(), name='disciplina_detail'),
-    #path('disciplinas/create/', views.DisciplinaCreateView.as_view(), name='disciplina_create'),
-    #path('disciplinas/<int:pk>/update/', views.DisciplinaUpdateView.as_view(), name='disciplina_update'),
-    path('disciplinas/<int:pk>/delete/', views.DisciplinaDeleteView.as_view(), name='disciplina_delete'),
-    # Turmas
-    path('turmas/', views.TurmaListView.as_view(), name='turma_list'),
-    path('turmas/<int:pk>/', views.TurmaDetailView.as_view(), name='turma_detail'),
-    #path('turmas/create/', views.TurmaCreateView.as_view(), name='turma_create'),
-    #path('turmas/<int:pk>/update/', views.TurmaUpdateView.as_view(), name='turma_update'),
-    path('turmas/<int:pk>/delete/', views.TurmaDeleteView.as_view(), name='turma_delete'),
-    path('turmas/<int:turma_id>/registrar_frequencia/', views.RegistrarFrequenciaView.as_view(), name='registrar_frequencia'),
-    path('turmas/<int:turma_id>/registrar_nota/', views.RegistrarNotaView.as_view(), name='registrar_nota'),
-    path('turmas/<int:turma_id>/gerenciar_estudantes/', views.TeacherAdicionarRemoverEstudantesView.as_view(), name='gerenciar_estudantes'),
-    path('relatorio_aluno/<int:aluno_id>/', views.RelatorioAlunoView.as_view(), name='relatorio_aluno'),
+    path('administrador/disciplinas/', views_administrador.disciplina_list_view, name='administrador_disciplina_list'),
+    path('administrador/disciplinas/create', views_administrador.create_disciplina_view, name='administrador_disciplina_create'),
+    path('administrador/disciplinas/<int:pk>', views_administrador.disciplina_details_view, name='administrador_disciplina_details'),
+    path('administrador/disciplinas/<int:pk>/edit', views_administrador.edit_disciplina_view, name='administrador_disciplina_update'),
+    path('administrador/disciplinas/<int:pk>/delete', views_administrador.delete_disciplina_view, name='administrador_disciplina_delete'),
+
+    # Curso
+    path('administrador/cursos/', views_administrador.curso_list_view, name='administrador_curso_list'),
+    path('administrador/cursos/create', views_administrador.create_curso_view, name='administrador_curso_create'),
+    path('administrador/cursos/<int:pk>', views_administrador.curso_details_view, name='administrador_curso_details'),
+    path('administrador/cursos/<int:pk>/edit', views_administrador.edit_curso_view, name='administrador_curso_update'),
+    path('administrador/cursos/<int:pk>/delete', views_administrador.delete_curso_view, name='administrador_curso_delete'),
+
 ]

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Controle Acadêmico</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Controle Acadêmico</h1>
+        <a href="/logout" style="color: white">Sair</a>
+    </header>
+    
+    <aside id="sidebar">
+        <ul>
+            <li><a href="#">Atividades</a></li>
+            {% if turma %}
+            <li><a href="{% url 'aluno_turma_boletim' turma.id %}">Boletim</a></li>
+            {% endif %}
+            <li><a href="#">Notícias</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Sistema de Controle Acadêmico</p>
+    </footer>
+</body>
+</html>

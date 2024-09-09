@@ -1,0 +1,34 @@
+{% extends 'aluno/base.html' %}
+
+{% block content %}
+    <div id="content">
+        <h1>Boletim</h1>
+        <h2>Turma: {{ turma.disciplina.nome }}</h2>
+        
+        <h3>Suas Notas</h3>
+        <ul>
+            {% for nota in notas %}
+                <li>{{ nota.turma.disciplina.nome }} - Avaliação {{ nota.avaliacao }}: {{ nota.nota }}</li>
+            {% empty %}
+                <li>Não há notas registradas.</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Sua Frequência</h3>
+        <ul>
+            {% for frequencia in frequencias %}
+                <li>{{ frequencia.data }}: 
+                    {% if frequencia.presente %}
+                        Presente
+                    {% else %}
+                        Ausente
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>Não há registros de frequência.</li>
+            {% endfor %}
+        </ul>
+       
+    </div>
+    
+{% endblock%}

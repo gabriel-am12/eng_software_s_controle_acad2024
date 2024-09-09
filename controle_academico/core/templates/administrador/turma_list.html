@@ -1,0 +1,30 @@
+{% extends 'administrador/base.html' %}
+
+{% block content %}
+<h2>Gerenciar turmas</h2>
+
+<form action="#">
+    <input placeholder="Pesquisar por turma"/>
+    <input type="submit" value="Pesquisar">
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Dsiciplina</th>
+            <th>Semestre</th>
+            <th>Acessar</th>
+        </tr>
+    </thead>
+
+    {% for turma in turmas %}
+    <tr>
+        <td>{{ turma.id }}</td>
+        <td>{{ turma.disciplina.nome }}</td>
+        <td>{{ turma.semestre }}º semestre</td>
+        <td><a href="{% url 'administrador_turma_details' turma.id %}">Acessar</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

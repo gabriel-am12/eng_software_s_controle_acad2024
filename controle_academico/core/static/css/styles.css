@@ -5,11 +5,18 @@ body {
     background-color: #f4f4f4;
 }
 header {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #333;
     color: #fff;
-    padding: 10px 0;
+    
     text-align: center;
+    height: 60px;
 }
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -33,10 +40,86 @@ footer {
 }
 
 a {
-    color: #333;
-    text-decoration: none;
+    /* color: #333;
+    text-decoration: none; */
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+#sidebar {
+    position: fixed;
+    top: 64px;
+    bottom: 0px;
+    left: 0px;
+    min-width: 200px;
+    width: fit-content;
+    padding: 8px 4px;
+    border-right: 1px solid black;
+    background-color: white;
+}
+
+#sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+#sidebar ul li {
+    padding: 8px 12px;
+}
+#sidebar ul li:hover {
+    background-color: #aaa;
+    color: white;
+}
+
+#sidebar ul li a {
+    text-decoration: none;
+    color: inherit;
+    user-select: none;
+}
+
+main {
+    margin-left: 250px;
+}
+
+/* Estilos gerais da tabela */
+table {
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 1200px;
+    border-collapse: collapse; /* Faz com que as bordas das células se fundam */
+    margin: 20px 0; /* Margem superior e inferior para a tabela */
+    font-family: Arial, sans-serif; /* Fonte para o texto da tabela */
+}
+
+/* Estilo para o cabeçalho da tabela */
+th {
+    background-color: #f4f4f4; /* Cor de fundo para as células do cabeçalho */
+    color: #333; /* Cor do texto do cabeçalho */
+    padding: 10px; /* Preenchimento interno das células do cabeçalho */
+    text-align: left; /* Alinhamento do texto para a esquerda */
+    border-bottom: 2px solid #ddd; /* Borda inferior das células do cabeçalho */
+}
+
+/* Estilo para as células da tabela */
+td {
+    padding: 10px; /* Preenchimento interno das células */
+    border-bottom: 1px solid #ddd; /* Borda inferior das células */
+}
+
+/* Estilo para as linhas da tabela */
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Cor de fundo das linhas pares */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Cor de fundo quando a linha é hover */
+}
+
+/* Estilo para a tabela quando não há dados */
+.table-empty {
+    text-align: center; /* Centraliza o texto */
+    font-style: italic; /* Texto em itálico */
+    color: #666; /* Cor do texto */
 }

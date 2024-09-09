@@ -1,0 +1,18 @@
+{% extends 'professor/base.html' %}
+
+{% block sidebar_links %}
+<li><a href="#">Notícias</a></li>
+<li><a href="#">Atividades</a></li>
+<li><a href="#">Frequencia</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>Turma {{ turma.id }}</h2>
+<h3>
+    {{ turma.disciplina.nome }}
+</h3>
+
+<div>
+    <h3>content</h3>
+</div>
+{% endblock %}

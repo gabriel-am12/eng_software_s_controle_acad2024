@@ -1,0 +1,18 @@
+{% extends 'administrador/base.html' %}
+
+{% block content %}
+<h1>Painel do Administrador</h1>
+<ul>
+    <li><a href="{% url 'administrador_curso_list' %}">Gerenciar Cursos</a></li>
+    <li><a href="{% url 'administrador_disciplina_list' %}">Gerenciar Disciplinas</a></li>
+    <li><a href="{% url 'administrador_turma_list' %}">Gerenciar Turmas</a></li>
+    <li>
+        Relatórios de Alunos:
+        <ul>
+            {% for aluno in alunos %}
+                <li><a href="{% url 'relatorio_aluno' aluno.id %}">{{ aluno.user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+{% endblock %}

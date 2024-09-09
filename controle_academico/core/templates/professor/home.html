@@ -1,0 +1,40 @@
+{% extends 'professor/base.html' %}
+
+{% block content %}
+    <h2>Bem-vindo, Professor {{ user.username }}!</h2>
+    <h3>Suas Turmas</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Dsiciplina</th>
+                <th>Semestre</th>
+                <th>Acessar</th>
+            </tr>
+        </thead>
+    
+        {% for turma in turmas %}
+        <tr>
+            <td>{{ turma.id }}</td>
+            <td>{{ turma.disciplina.nome }}</td>
+            <td>{{ turma.semestre }}º semestre</td>
+            <td><a href="{% url 'professor_turma_details' turma.id %}">Acessar</a></td>
+        </tr>
+        {% empty %}
+            <tr>
+                <td>
+                    Você não está matriculado em nenhuma turma.
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!-- <h3>Relatórios de Alunos</h3>
+    <ul>
+        {% for aluno in alunos %}
+            <li><a href="{% url 'relatorio_aluno' aluno.id %}">{{ aluno.user.username }}</a></li>
+        {% endfor %}
+    </ul> -->
+
+{% endblock %}
