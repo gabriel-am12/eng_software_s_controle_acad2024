@@ -32,5 +32,7 @@ urlpatterns = [
     path('turmas/<int:turma_id>/registrar_frequencia/', views.RegistrarFrequenciaView.as_view(), name='registrar_frequencia'),
     path('turmas/<int:turma_id>/registrar_nota/', views.RegistrarNotaView.as_view(), name='registrar_nota'),
     path('turmas/<int:turma_id>/gerenciar_estudantes/', views.TeacherAdicionarRemoverEstudantesView.as_view(), name='gerenciar_estudantes'),
+    
     path('relatorio_aluno/<int:aluno_id>/', views.RelatorioAlunoView.as_view(), name='relatorio_aluno'),
+     path('relatorio_aluno/<int:aluno_id>/pdf/', views.gerar_relatorio_pdf, name='gerar_relatorio_pdf')
 ]

@@ -55,7 +55,7 @@ class Turma(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, related_name='turmas')
     semestre = models.CharField(max_length=6)  # Ex: "2024-1"
     professores = models.ManyToManyField('Professor', related_name='turmas')
-    alunos = models.ManyToManyField('Aluno', related_name='turmas_set')
+    alunos = models.ManyToManyField('Aluno', related_name='turmas_set', blank=True)
 
     def __str__(self):
         return f'{self.disciplina.nome} - {self.semestre}'

@@ -4,10 +4,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-#from reportlab.lib.pagesizes import letter
-#from reportlab.pdfgen import canvas
 from .models import Profile, Curso, Disciplina, Turma, Aluno, Professor, Frequencia, Nota
 from .forms import SignUpForm, CursoForm, DisciplinaForm, TurmaForm, FrequenciaForm, NotaForm, TeacherAdicionarRemoverEstudantesForm
+from reportlab.pdfgen import canvas
 
 # Redirect, Registro e Login
 def redirect_user_based_on_type(user):
@@ -280,3 +279,54 @@ class RelatorioAlunoView(View):
 
         return render(request,'relatorio_aluno.html', context)
     
+def gerar_relatorio_pdf(request, aluno_id):
+    aluno = Aluno.objects.get(id=aluno_id)
+    
+    # Criação de uma resposta HTTP com o tipo de conteúdo PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="relatorio_{aluno.nome}.pdf"'
+    
+    # Criação do objeto Canvas para o PDF
+    p = canvas.Canvas(response)
+    
+    # Título do relatório
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(100, 800, f"Relatório de Desempenho - {aluno.nome}")
+    
+    # Dados do aluno
+    p.setFont("Helvetica", 12)
+    p.drawString(100, 770, f"Nome: {aluno.nome}")
+    p.drawString(100, 750, f"Matricula: {aluno.matricula}")
+    p.drawString(100, 730, f"Email: {aluno.email}")
+    
+    # Adicionar turmas e professores
+    turmas = aluno.turmas.all()
+    p.drawString(100, 700, "Cursos, Disciplinas e Turmas:")
+    altura = 680
+    for turma in turmas:
+        professores = ', '.join([professor.user.username for professor in turma.professores.all()])
+        p.drawString(120, altura, f"- {turma.disciplina.nome} (Professores: {professores})")
+        altura -= 20
+    
+    # Adicionar Notas
+    p.drawString(100, altura - 20, "Notas:")
+    altura -= 40
+    notas = Nota.objects.filter(aluno=aluno)
+    for nota in notas:
+        p.drawString(120, altura, f"- {nota.turma.disciplina.nome}: Avaliação {nota.avaliacao}, Nota: {nota.nota}")
+        altura -= 20
+
+    # Adicionar Frequências
+    p.drawString(100, altura - 20, "Frequências:")
+    altura -= 40
+    frequencias = Frequencia.objects.filter(aluno=aluno)
+    for frequencia in frequencias:
+        status = "Presente" if frequencia.presente else "Ausente"
+        p.drawString(120, altura, f"- {frequencia.turma.disciplina.nome}: {frequencia.data} - {status}")
+        altura -= 20
+    
+    # Finaliza o PDF
+    p.showPage()
+    p.save()
+    
+    return response

@@ -21,6 +21,8 @@
     {% endfor %}
 </ul>
 
+<a href="{% url 'gerar_relatorio_pdf' aluno.id %}">Baixar relatório em PDF</a>
+
 <p>
     <a href="{{ redirect_url }}">Voltar</a>
 </p>
