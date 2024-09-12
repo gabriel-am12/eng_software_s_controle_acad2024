@@ -15,8 +15,8 @@ class Perfil(models.Model):
 
 
 class Professor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
-    profile = models.OneToOneField(Perfil, on_delete=models.CASCADE, null = True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True, blank=True)
+    profile = models.OneToOneField(Perfil, on_delete=models.CASCADE, null = True, blank=True)
     nome = models.CharField(max_length=100)
     email = models.EmailField()
 
@@ -25,8 +25,8 @@ class Professor(models.Model):
 
 
 class Aluno(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile = models.OneToOneField(Perfil, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    profile = models.OneToOneField(Perfil, on_delete=models.CASCADE, null=True, blank=True)
     nome = models.CharField(max_length=100)
     matricula = models.CharField(max_length=15)
     telefone = models.CharField(max_length=12, blank=True, null=True)
@@ -49,7 +49,7 @@ class Disciplina(models.Model):
     carga_horaria = models.IntegerField()
     prerequisitos = models.ManyToManyField('self', blank=True, symmetrical=False)
     programa = models.TextField()
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='disciplinas')
+    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name='disciplinas', blank=True, null=True) # Revisar essa relação
 
     def __str__(self):
         return self.nome
@@ -58,7 +58,7 @@ class Disciplina(models.Model):
 class Turma(models.Model):
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, related_name='turmas')
     semestre = models.CharField(max_length=6)  # Ex: "2024-1"
-    professores = models.ManyToManyField('Professor', related_name='turmas')
+    professores = models.ManyToManyField('Professor', related_name='turmas', blank=True)
     alunos = models.ManyToManyField('Aluno', related_name='turmas_set', blank=True)
 
     def __str__(self):
