@@ -77,11 +77,15 @@ def turma_delete_view(request):
 # -------------------------------- CRUD CURSO ---------------------------------
 
 def curso_list_view(request):
-    pass
+    cursos = models.Curso.objects.all()
+    context = {'cursos': cursos}
+    return render(request, template_name='administrador/curso_list.html', context=context)
 
 
 def curso_details_view(request, pk: int):
-    pass
+    curso = get_object_or_404(models.Curso, pk=pk)
+    context = {'curso': curso}
+    return render(request, template_name='administrador/curso_details.html', context=context)
 
 
 def edit_curso_view(reuqest, pk: int):
@@ -89,7 +93,15 @@ def edit_curso_view(reuqest, pk: int):
 
 
 def create_curso_view(request):
-    pass
+    if request.method == 'POST':
+        form = forms.CursoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('administrador_curso_list'))
+    else:
+        form = forms.CursoForm()
+    
+    return render(request, 'administrador/curso_create.html', {'form': form})
 
 
 def delete_curso_view(request):

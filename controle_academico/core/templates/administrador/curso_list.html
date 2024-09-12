@@ -1,0 +1,32 @@
+{% extends 'administrador/base.html' %}
+
+{% block content %}
+<h2>Gerenciar cursos</h2>
+
+<form action="#">
+    <input placeholder="Pesquisar por curso"/>
+    <input type="submit" value="Pesquisar">
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Acessar</th>
+        </tr>
+    </thead>
+
+    {% for curso in cursos %}
+    <tr>
+        <td>{{ curso.id }}</td>
+        <td>{{ curso.nome }}</td>
+        <td>{{ curso.descricao }}</td>
+        <td><a href="{% url 'administrador_curso_details' curso.id %}">Acessar</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<button onclick="location.href='{% url 'administrador_curso_create' %}'">+ Adicionar curso</button>
+{% endblock %}
