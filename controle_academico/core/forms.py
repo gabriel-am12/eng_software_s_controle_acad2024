@@ -4,6 +4,12 @@ from django.contrib.auth.models import User
 from .models import Perfil, Curso, Disciplina, Turma, Professor, Aluno, Frequencia, Nota
 
 
+class AlunoForm(forms.ModelForm):
+    class Meta:
+        model = Aluno
+        fields = ('nome', 'matricula', 'email', 'telefone')
+
+
 class SignUpForm(UserCreationForm):
     user_type = forms.ChoiceField(choices=Perfil.USER_TYPES, required=True, label="Eu sou")
 

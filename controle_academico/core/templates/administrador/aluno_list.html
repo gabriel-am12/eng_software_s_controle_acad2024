@@ -1,0 +1,34 @@
+{% extends 'administrador/base.html' %}
+
+{% block content %}
+<h2>Gerenciar alunos</h2>
+
+<form action="#">
+    <input placeholder="Pesquisar por aluno"/>
+    <input type="submit" value="Pesquisar">
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Acessar</th>
+        </tr>
+    </thead>
+
+    {% for aluno in alunos %}
+    <tr>
+        <td>{{ aluno.matricula }}</td>
+        <td>{{ aluno.nome }}</td>
+        <td>{{ aluno.email }}</td>
+        <td>{{ aluno.telefone }}</td>
+        <td><a href="{% url 'administrador_aluno_details' aluno.id %}">Acessar</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<button onclick="location.href='{% url 'administrador_aluno_create' %}'">+ Adicionar aluno</button>
+{% endblock %}

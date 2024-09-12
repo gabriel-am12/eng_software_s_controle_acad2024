@@ -29,6 +29,7 @@ class Aluno(models.Model):
     profile = models.OneToOneField(Perfil, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     matricula = models.CharField(max_length=15)
+    telefone = models.CharField(max_length=12, blank=True, null=True)
     email = models.EmailField()
 
     def __str__(self):
