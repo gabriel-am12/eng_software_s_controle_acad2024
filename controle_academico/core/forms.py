@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Perfil, Curso, Disciplina, Turma, Professor, Aluno, Frequencia, Nota
+from .models import Perfil, Curso, Disciplina, Turma, Professor, Aluno, Frequencia, Nota, Atividade
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class AlunoForm(forms.ModelForm):
     class Meta:
@@ -78,4 +80,12 @@ class TeacherAdicionarRemoverEstudantesForm(forms.Form):
     def save(self):
         alunos_selecionados = self.cleaned_data['alunos']
         self.turma.alunos.set(alunos_selecionados)
-        
+
+
+class AtividadeForm(forms.ModelForm):
+    class Meta:
+        model = Atividade
+        fields = ['turma', 'titulo', 'conteudo', 'data_limite', 'arquivos']
+        widgets = {
+            'data_limite': DateInput(),
+        }

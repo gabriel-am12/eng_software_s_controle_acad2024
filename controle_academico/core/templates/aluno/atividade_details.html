@@ -1,0 +1,28 @@
+{% extends 'aluno/base.html' %}
+
+{% block content %}
+    <div id="content">
+        <h2>Atividade</h2>
+        <h3>Turma: {{ atividade.turma.disciplina.nome }}</h3>
+
+        <table>
+            <tr>
+                <th>Título</th>
+                <td>{{ atividade.titulo }}</td>
+                
+            </tr>
+            
+            <tr>
+                <th>Data limite</th>
+                <td>{{ atividade.data_limite }}</td>
+            </tr>
+            
+            <tr>
+                <th>Conteúdo</th>
+                <td>{{ atividade.conteudo }}</td>
+            </tr>
+        </table>
+    
+    </div>
+    
+{% endblock%}

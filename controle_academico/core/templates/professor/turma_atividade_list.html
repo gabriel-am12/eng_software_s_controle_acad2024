@@ -1,0 +1,40 @@
+{% extends 'professor/base.html' %}
+
+{% block sidebar_links %}
+<li><a href="#">Notícias</a></li>
+<li><a href="#">Atividades</a></li>
+<li><a href="#">Frequencia</a></li>
+{% endblock %}
+
+{% block content %}
+<h1>Atividades</h1>
+<h2>Turma {{ turma.id }} | {{ turma.disciplina.nome }}</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Data limite</th>
+            <th>Acessar</th>
+        </tr>
+    </thead>
+
+    {% for atividade in turma.atividades.all %}
+    <tr>
+        <td>{{ atividade.titulo }}</td>
+        <td>{{ atividade.data_limite }}</td>
+        <td><a href="{% url 'professor_turma_details' turma.id %}">Acessar</a></td>
+    </tr>
+    {% empty %}
+        <tr>
+            <td>
+                Não há atividades cadastradas nessa turma.
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<button onclick="location.href='{% url 'professor_atividade_create' %}'">+ Adicionar atividade</button>
+
+{% endblock %}

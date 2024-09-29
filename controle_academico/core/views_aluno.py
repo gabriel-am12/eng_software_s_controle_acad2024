@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest
 
-from .models import Frequencia, Nota, Turma, Aluno
+from .models import Frequencia, Nota, Turma, Aluno, Atividade
 from .decorators import student_required
 
 @student_required
@@ -68,5 +68,20 @@ def boletim_view(request: HttpRequest, turma_id: int):
     return render(
         request=request,
         template_name='aluno/boletim.html',
+        context=context
+    )
+
+
+def aluno_atividade_details_view(request: HttpRequest, atividade_id: int):
+    aluno = Aluno.objects.get(user=request.user)
+    atividade = Atividade.objects.get(pk=atividade_id)
+
+    context = {
+        'atividade': atividade,
+    }
+
+    return render(
+        request=request,
+        template_name='aluno/atividade_details.html',
         context=context
     )

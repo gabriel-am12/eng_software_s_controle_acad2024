@@ -12,13 +12,25 @@ urlpatterns = [
     # ---------------------------- Estudante ----------------------------------
 
     path('aluno/', views_aluno.home_view, name='aluno_inicio'),
-    path('aluno/turma/<int:turma_id>/', views_aluno.turma_view, name='aluno_turma_details'),
-    path('aluno/turma/<int:turma_id>/boletim/', views_aluno.boletim_view, name='aluno_turma_boletim'),
+    path('aluno/turmas/<int:turma_id>/', views_aluno.turma_view, name='aluno_turma_details'),
+    path('aluno/turmas/<int:turma_id>/boletim/', views_aluno.boletim_view, name='aluno_turma_boletim'),
+    path('aluno/atividades/<int:atividade_id>/', views_aluno.aluno_atividade_details_view, name='aluno_atividade_details'),
+
     
     # ---------------------------- Professor ----------------------------------
 
     path('professor/', views_professor.home_view, name='professor_inicio'),
-    path('professor/turma/<int:turma_id>/', views_professor.turma_details_view, name='professor_turma_details'),
+    
+    # Turma
+    path('professor/turmas/<int:turma_id>/', views_professor.turma_details_view, name='professor_turma_details'),
+    path('professor/turmas/<int:turma_id>/atividades', views_professor.turma_atividade_list_view, name='professor_turma_atividade_list'),
+    
+    # Atividade
+    path('professor/atividades/create', views_professor.atividade_create_view, name='professor_atividade_create'),
+    # path('professor/atividades/<int:pk>/', views_professor.atividade_create_view, name='professor_atividade_create'),
+    # path('professor/atividades/<int:pk>/edit', views_professor.atividade_create_view, name='professor_atividade_create'),
+    # path('professor/atividades/<int:pk>/delete', views_professor.atividade_create_view, name='professor_atividade_create'),
+
 
     # ---------------------------- Administrador ------------------------------
 

@@ -4,6 +4,31 @@
     <div id="content">
         <h2>Turma: {{ turma.disciplina.nome }}</h2>
         <h3>Atividades</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Data limite</th>
+                    <th>Acessar</th>
+                </tr>
+            </thead>
+        
+            {% for atividade in turma.atividades.all %}
+            <tr>
+                <td>{{ atividade.titulo }}</td>
+                <td>{{ atividade.data_limite }}</td>
+                <td><a href="{% url 'aluno_atividade_details' atividade.id %}">Acessar</a></td>
+            </tr>
+            {% empty %}
+                <tr>
+                    <td>
+                        Não há atividades cadastradas nessa turma.
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        
         <!-- <h3>Sua Frequência</h3>
         <ul>
             {% for frequencia in frequencias %}
