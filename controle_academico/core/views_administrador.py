@@ -46,7 +46,11 @@ def aluno_create_view(request):
 
 @admin_required
 def aluno_delete_view(request, pk: int):
-    pass
+    if request.method == 'POST':
+        aluno = models.Aluno.objects.get(id=pk)
+        aluno.delete()
+    
+    return redirect(reverse('administrador_aluno_list'))
 
 # -------------------------------- CRUD TURMA ---------------------------------
 

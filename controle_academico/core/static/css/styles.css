@@ -123,3 +123,8 @@ tr:hover {
     font-style: italic; /* Texto em itálico */
     color: #666; /* Cor do texto */
 }
+
+
+input[type=text] {
+    border: 1px solid black;
+}
