@@ -1,6 +1,9 @@
 {% extends 'administrador/base.html' %}
 
 {% block content %}
-{{ form.as_p }}
-<input type="submit" value="Adicionar aluno" />
+<form method="POST" action="{% url 'administrador_aluno_create' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Adicionar aluno" />
+</form>
 {% endblock %}
