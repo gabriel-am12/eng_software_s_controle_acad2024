@@ -1,54 +1,55 @@
 {% extends 'administrador/base.html' %}
 
 {% block content %}
-<h2>Gerenciar alunos</h2>
+<h2 class="text-2xl font-semibold mb-8">Gerenciar alunos</h2>
 
-<form action="#">
-    <input placeholder="Pesquisar por aluno"/>
-    <input type="submit" value="Pesquisar">
-</form>
-
-<table>
-    <thead>
+<div class="w-3/5 p-4 rounded-lg bg-white border-neutral-300 border shadow">
+    <form action="#" class="flex gap-2 mb-2">
+        <input placeholder="Pesquisar por aluno" type="text" class="w-full"/>
+        <input type="submit" value="Pesquisar" class="px-4 py-1 border border-slate-500 text-slate-500 hover:bg-white transition-colors duration-200 rounded">
+    </form>
+    <button class="bg-white border border-green-500 text-green-500 p-2 rounded hover:bg-green-400 hover:text-white transition-colors duration-100" onclick="location.href='{% url 'administrador_aluno_create' %}'">+ Adicionar aluno</button>        
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Acessar</th>
+                <th>Deletar</th>
+    
+            </tr>
+        </thead>
+    
+        {% for aluno in alunos %}
         <tr>
-            <th>Matrícula</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>Acessar</th>
-            <th>Deletar</th>
-
+            <td>{{ aluno.matricula }}</td>
+            <td>{{ aluno.nome }}</td>
+            <td>{{ aluno.email }}</td>
+            <td>{{ aluno.telefone }}</td>
+            <td>
+                <a 
+                    class="rounded border bg-white text-blue-500 border-blue-500 p-2 hover:bg-blue-400 hover:no-underline hover:text-white"
+                    href="{% url 'administrador_aluno_details' aluno.id %}"
+                >
+                    <i class="bi bi-arrow-right"></i> Acessar
+                </a>
+            </td>
+            <td>
+                <button
+                    class="rounded border bg-white text-red-500 border-red-500 px-2 py-1 hover:bg-red-400 hover:text-white"
+                    href="{% url 'administrador_aluno_delete' aluno.id %}"
+                    onclick="deleteAluno({{ aluno.id }})"
+                >
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </td>
         </tr>
-    </thead>
-
-    {% for aluno in alunos %}
-    <tr>
-        <td>{{ aluno.matricula }}</td>
-        <td>{{ aluno.nome }}</td>
-        <td>{{ aluno.email }}</td>
-        <td>{{ aluno.telefone }}</td>
-        <td>
-            <a 
-                class="rounded border bg-white border-neutral-400 p-2 hover:bg-slate-200 hover:no-underline"
-                href="{% url 'administrador_aluno_details' aluno.id %}"
-            >
-                <i class="bi bi-arrow-right"></i> Acessar
-            </a>
-        </td>
-        <td>
-            <button
-                class="rounded border bg-white border-neutral-400 p-2 hover:bg-slate-200"
-                href="{% url 'administrador_aluno_delete' aluno.id %}"
-                onclick="deleteAluno({{ aluno.id }})"
-            >
-                <i class="bi bi-trash"></i> Delete
-            </button>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
-<button class="bg-white border border-neutral-400 p-2 rounded hover:bg-slate-200" onclick="location.href='{% url 'administrador_aluno_create' %}'">+ Adicionar aluno</button>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
 
 

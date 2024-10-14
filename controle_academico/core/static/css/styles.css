@@ -2,9 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
-header {
+/* header {
     padding-left: 2rem;
     padding-right: 2rem;
     display: flex;
@@ -15,7 +14,7 @@ header {
     
     text-align: center;
     height: 60px;
-}
+} */
 
 nav ul {
     list-style: none;
@@ -30,11 +29,8 @@ nav ul li a {
     text-decoration: none;
 }
 footer {
-    background-color: #333;
-    color: #fff;
     text-align: center;
     padding: 10px 0;
-    position: fixed;
     bottom: 0;
     width: 100%;
 }
@@ -49,7 +45,7 @@ a:hover {
 }
 
 #sidebar {
-    position: fixed;
+    /* position: fixed; */
     top: 64px;
     bottom: 0px;
     left: 0px;
@@ -80,7 +76,7 @@ a:hover {
 }
 
 main {
-    margin-left: 250px;
+    /* margin-left: 250px; */
 }
 
 /* Estilos gerais da tabela */
@@ -125,6 +121,8 @@ tr:hover {
 }
 
 
-input[type=text] {
-    border: 1px solid black;
+input[type=text], input[type=password] {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #99b;
 }
