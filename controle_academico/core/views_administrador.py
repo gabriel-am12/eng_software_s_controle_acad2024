@@ -132,7 +132,9 @@ def delete_curso_view(request):
 
 @admin_required
 def disciplina_list_view(request):
-    pass
+    disciplinas = models.Disciplina.objects.all()
+    context = {'disciplinas': disciplinas}
+    return render(request, template_name='administrador/disciplina_list.html', context=context)
 
 
 @admin_required

@@ -81,7 +81,7 @@ main {
 
 /* Estilos gerais da tabela */
 table {
-    border: 1px solid #ddd;
+    border: 1px solid #c2c2c2;
     width: 100%;
     max-width: 1200px;
     border-collapse: collapse; /* Faz com que as bordas das células se fundam */
@@ -91,10 +91,10 @@ table {
 
 /* Estilo para o cabeçalho da tabela */
 th {
-    background-color: #f4f4f4; /* Cor de fundo para as células do cabeçalho */
+    background-color: #e4e4e4; /* Cor de fundo para as células do cabeçalho */
     color: #333; /* Cor do texto do cabeçalho */
     padding: 10px; /* Preenchimento interno das células do cabeçalho */
-    text-align: left; /* Alinhamento do texto para a esquerda */
+    text-align: center; /* Alinhamento do texto para a esquerda */
     border-bottom: 2px solid #ddd; /* Borda inferior das células do cabeçalho */
 }
 
@@ -120,9 +120,9 @@ tr:hover {
     color: #666; /* Cor do texto */
 }
 
-
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=email] {
     padding: 4px 8px;
     border-radius: 6px;
     border: 1px solid #99b;
+    margin-bottom: 1rem;
 }

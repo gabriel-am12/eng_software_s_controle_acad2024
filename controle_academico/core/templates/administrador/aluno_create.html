@@ -1,9 +1,38 @@
 {% extends 'administrador/base.html' %}
 
 {% block content %}
-<form method="POST" action="{% url 'administrador_aluno_create' %}">
+<h1 class="text-center text-xl font-semibold mb-8">Cadastrar aluno</h1>
+<form method="POST" action="{% url 'administrador_aluno_create' %}" class="flex flex-col items-start w-full max-w-lg p-4 bg-white shadow rounded-lg border border-neutral-300">
+    
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Adicionar aluno" />
+    
+    <label for="id_nome">Nome:</label>
+    <input type="text" name="nome" maxlength="100" required="" id="id_nome" class="w-full" placeholder="Sr. Aluno da Silva">
+    
+    <label for="id_matricula">Matricula:</label>
+    <input type="text" name="matricula" maxlength="15" required="" id="id_matricula" class="w-full" placeholder="00001">
+
+    <label for="id_email">Email:</label>
+    <input type="email" name="email" maxlength="254" required="" id="id_email" class="w-full" placeholder="aluno@sigmin.com">
+      
+    <label for="id_telefone">Telefone:</label>
+    <input type="text" name="telefone" maxlength="12" id="id_telefone" class="w-full" placeholder="(ddd) 99999-9999">
+
+  
+    <div class="flex w-full gap-4 mt-4">
+        <button 
+            class="w-full px-2 py-1 border rounded border-gray-500 text-gray-500 hover:text-white hover:bg-gray-600"
+            type="button"
+            onclick="alert('hi')"
+        >
+            Voltar
+        </button>
+        <input
+            type="submit"
+            value="Cadastrar"
+            class="w-full px-2 py-1 border rounded border-green-500 text-green-500 hover:text-white hover:bg-green-600"
+        />
+    </div>
+    
 </form>
 {% endblock %}

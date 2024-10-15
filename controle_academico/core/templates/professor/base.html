@@ -9,9 +9,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-neutral-100">
-    <header class="flex justify-between h-16 bg-neutral-50 shadow-lg border-b border-neutral-300 px-8 items-center">
+    <header class="flex justify-between h-16 bg-neutral-50 shadow border-b border-neutral-300 px-8 items-center">
         <a href="/"><img src="{% static 'images/logo.png' %}" class="w-24"alt="Home"/></a>
-        <a href="/logout" class="font-medium hover:no-underline hover:bg-slate-200 px-4 py-2 rounded-lg text-slate-400 border  hover:font-semibold border-slate-400">Sair</a>
+        <div class="flex gap-4">
+
+            <div class="flex flex-col select-none">
+                <span class="font-bold text-sm">
+                    {{ user.username | title }}
+                </span>
+                <span class="font-medium text-xs">Professor</span>
+            </div>
+    
+            <a href="/logout" class="font-medium hover:no-underline hover:bg-slate-200 px-4 py-2 rounded-lg text-slate-400 border  hover:font-semibold border-slate-400">Sair</a>
+        </div>
     </header>
 
     <main class="min-h-screen px-4 py-8">
