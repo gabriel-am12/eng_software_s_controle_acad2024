@@ -1,9 +1,12 @@
 {% extends 'administrador/base.html' %}
 
 {% block content %}
+<h1 class="text-center text-xl font-semibold mb-8">Detalhes do curso</h1>
+
 <h2>Curso: {{curso.nome }}</h2>
 <h3>Descrição:</h3>
 <p>{{ curso.descricao }}</p>
 
-
+<button class="bg-slate-400 hover:bg-slate-300 rounded px-2 py-2 border border-slate-600">Cadastrar disciplinas</button>
+<button class="bg-slate-400 hover:bg-slate-300 rounded px-2 py-2 border border-slate-600">Cadastrar nova turma</button>
 {% endblock %}

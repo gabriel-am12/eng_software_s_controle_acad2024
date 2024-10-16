@@ -1,0 +1,16 @@
+{% extends 'professor/base.html' %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold mb-8">{{ page_title}}</h2>
+
+<div class="w-3/5 p-4 rounded-lg bg-white border-neutral-300 border shadow">
+    <form class="w-full flex gap-2 h-fit mb-4">
+        {% csrf_token %}
+        <input placeholder="Pesquisar" type="text" name="q" class="w-full"/>
+        <button type="submit" class="h-fit px-4 py-1 border border-slate-500 text-slate-500 hover:bg-slate-300 transition-colors duration-200 rounded">Pesquisar</button>
+    </form>
+    
+    {% block table %}
+    {% endblock %}
+</div>
+{% endblock %}

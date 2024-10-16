@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-neutral-100 flex justify-between flex-col h-fit min-h-screen">
     <header class="flex justify-between h-16 bg-neutral-50 shadow border-b border-neutral-300 px-8 items-center">
         <a href="/"><img src="{% static 'images/logo.png' %}" class="w-24"alt="Home"/></a>
         <div class="flex gap-4">
@@ -23,18 +23,8 @@
             <a href="/logout" class="font-medium hover:no-underline hover:bg-slate-200 px-4 py-2 rounded-lg text-slate-400 border  hover:font-semibold border-slate-400">Sair</a>
         </div>
     </header>
-    
-    <!-- <aside id="sidebar">
-        <ul>
-            <li><a href="#">Atividades</a></li>
-            {% if turma %}
-            <li><a href="{% url 'aluno_turma_boletim' turma.id %}">Boletim</a></li>
-            {% endif %}
-            <li><a href="#">Notícias</a></li>
-        </ul>
-    </aside> -->
 
-    <main class="min-h-screen px-4 py-8">
+    <main class="h-full flex-grow px-4 py-8 text-center items-center flex flex-col max-w-4/5">
         {% block content %}
         {% endblock %}
     </main>

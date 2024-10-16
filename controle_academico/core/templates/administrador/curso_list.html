@@ -1,13 +1,6 @@
-{% extends 'administrador/base.html' %}
+{% extends 'administrador/generic_list.html' %}
 
-{% block content %}
-<h2>Gerenciar cursos</h2>
-
-<form action="#">
-    <input placeholder="Pesquisar por curso"/>
-    <input type="submit" value="Pesquisar">
-</form>
-
+{% block table %}
 <table>
     <thead>
         <tr>
@@ -27,6 +20,4 @@
     </tr>
     {% endfor %}
 </table>
-
-<button onclick="location.href='{% url 'administrador_curso_create' %}'">+ Adicionar curso</button>
 {% endblock %}

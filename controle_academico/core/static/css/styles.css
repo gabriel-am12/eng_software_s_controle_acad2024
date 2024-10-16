@@ -126,3 +126,16 @@ input[type=text], input[type=password], input[type=email] {
     border: 1px solid #99b;
     margin-bottom: 1rem;
 }
+
+form input, form select, form textarea {
+    width: 100%;
+    background-color: white;
+    border-radius: 0.5rem; /* rounded-lg */
+    border: 1px solid #94a3b8; /* border-slate-400 */
+    padding: 0.5rem 0.75rem; /* px-3 py-2 */
+    margin-bottom: 1rem; /* mb-4 */
+}
+
+form label {
+    color: #313335
+}

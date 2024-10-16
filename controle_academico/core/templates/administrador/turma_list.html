@@ -1,40 +1,30 @@
-{% extends 'administrador/base.html' %}
+{% extends 'administrador/generic_list.html' %}
 
-{% block content %}
-<h2 class="text-center text-xl font-semibold mb-8">Gerenciar turmas</h2>
-
-<div class="w-4/5 max-w-4xl max-sm:w-11/12">
-    <form action="#" class="w-full flex gap-2">
-        <input placeholder="Pesquisar por turma" type="text" class="w-full"/>
-        <input type="submit" value="Pesquisar" class="px-2 py-1 h-fit border border-slate-400 text-slate-700 rounded bg-slate-300 hover:bg-slate-50 transition-colors duration-100">
-    </form>
-    <button class="bg-white border border-green-500 text-green-500 p-2 rounded hover:bg-green-400 hover:text-white transition-colors duration-100" onclick="location.href='{% url 'administrador_turma_create' %}'">+ Adicionar turma</button>        
-    
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Dsiciplina</th>
-                <th>Semestre</th>
-                <th>Acessar</th>
-            </tr>
-        </thead>
-    
-        {% for turma in turmas %}
+{% block table %}
+<table>
+    <thead>
         <tr>
-            <td>{{ turma.id }}</td>
-            <td>{{ turma.disciplina.nome }}</td>
-            <td>{{ turma.semestre }}º semestre</td>
-            <td>
-                <a 
-                    class="rounded border bg-white text-blue-500 border-blue-500 p-2 hover:bg-blue-400 hover:no-underline hover:text-white"
-                    href="{% url 'administrador_turma_details' turma.id %}"
-                >
-                    Acessar
-                </a>
-                </td>
+            <th>ID</th>
+            <th>Dsiciplina</th>
+            <th>Semestre</th>
+            <th>Acessar</th>
         </tr>
-        {% endfor %}
-    </table>
-</div>
+    </thead>
+
+    {% for turma in turmas %}
+    <tr>
+        <td>{{ turma.id }}</td>
+        <td>{{ turma.disciplina.nome }}</td>
+        <td>{{ turma.semestre }}º semestre</td>
+        <td>
+            <a 
+                class="rounded border bg-white text-blue-500 border-blue-500 p-2 hover:bg-blue-400 hover:no-underline hover:text-white"
+                href="{% url 'administrador_turma_details' turma.id %}"
+            >
+                Acessar
+            </a>
+            </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

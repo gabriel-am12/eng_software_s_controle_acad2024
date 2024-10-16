@@ -7,9 +7,21 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class AlunoForm(forms.ModelForm):
+    username = forms.CharField(max_length=50, label="Nome de usuário")
+    password = forms.CharField(label="Senha", widget=forms.PasswordInput())
+    password_repeat = forms.CharField(label="Confirmação de senha", widget=forms.PasswordInput())
+
     class Meta:
         model = Aluno
         fields = ('nome', 'matricula', 'email', 'telefone')
+
+    def clean(self):
+        form_data = self.cleaned_data
+        if form_data['password'] != form_data['password_repeat']:
+            self._errors["password"] = ["As senhas não estão iguais"]
+            del form_data['password']
+
+        return form_data
 
 
 class SignUpForm(UserCreationForm):

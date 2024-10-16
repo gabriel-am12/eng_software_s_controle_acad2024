@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 from . import forms
 from . import models
@@ -11,11 +12,14 @@ def home_view(request):
 
 # -------------------------------- CRUD ALUNO ---------------------------------
 
-
 @admin_required
 def aluno_list_view(request):
     alunos = models.Aluno.objects.all()
-    context = {'alunos': alunos}
+    context = {
+        'page_title': 'Lista de alunos',
+        'add_link': reverse('administrador_aluno_create'),
+        'alunos': alunos, 
+    }
     return render(request, template_name='administrador/aluno_list.html', context=context)
 
 
@@ -35,13 +39,38 @@ def aluno_update_view(request, pk: int):
 def aluno_create_view(request):
     if request.method == 'POST':
         form = forms.AlunoForm(request.POST)
+        
         if form.is_valid():
-            form.save()
+            data = form.clean()
+            
+            user = get_user_model().objects.create_user(
+                username=data["username"],
+                email=data["email"],
+                password=data["password"]
+            )
+            user.save()
+
+            perfil = models.Perfil.objects.create(
+                user=user,
+                user_type='student'
+            )
+            perfil.save()
+
+            aluno = form.save()
+            aluno.user = user
+            aluno.profile = perfil
+            aluno.save()
+            
             return redirect(reverse('administrador_aluno_list'))
     else:
         form = forms.AlunoForm()
     
-    return render(request, 'administrador/aluno_create.html', {'form': form})
+    context = {
+        'page_title': 'Cadastrar aluno',
+        'form': form
+    }
+
+    return render(request, 'administrador/generic_form.html', context)
 
 
 @admin_required
@@ -57,7 +86,11 @@ def aluno_delete_view(request, pk: int):
 @admin_required
 def turma_list_view(request):
     turmas = models.Turma.objects.all()
-    context = {'turmas': turmas}
+    context = {
+        'page_title': 'Lista de turmas',
+        'add_link': reverse('administrador_turma_create'),
+        'turmas': turmas
+    }
     return render(request, template_name='administrador/turma_list.html', context=context)
 
 
@@ -83,7 +116,12 @@ def turma_create_view(request):
     else:
         form = forms.TurmaForm()
     
-    return render(request, 'administrador/turma_create.html', {'form': form})
+    context = {
+        'page_title': 'Cadastrar turma',
+        'form': form
+    }
+
+    return render(request, 'administrador/generic_form.html', context)
 
 
 @admin_required
@@ -95,7 +133,11 @@ def turma_delete_view(request):
 @admin_required
 def curso_list_view(request):
     cursos = models.Curso.objects.all()
-    context = {'cursos': cursos}
+    context = {
+        'page_title': 'Lista de cursos',
+        'add_link': reverse('administrador_curso_create'),
+        'cursos': cursos
+    }
     return render(request, template_name='administrador/curso_list.html', context=context)
 
 
@@ -121,7 +163,12 @@ def create_curso_view(request):
     else:
         form = forms.CursoForm()
     
-    return render(request, 'administrador/curso_create.html', {'form': form})
+    context = {
+        'page_title': 'Cadastrar curso',
+        'form': form
+    }
+
+    return render(request, 'administrador/generic_form.html', context)
 
 
 @admin_required
@@ -133,7 +180,11 @@ def delete_curso_view(request):
 @admin_required
 def disciplina_list_view(request):
     disciplinas = models.Disciplina.objects.all()
-    context = {'disciplinas': disciplinas}
+    context = {
+        'page_title': 'Lista de disciplinas',
+        'add_link': reverse('administrador_disciplina_create'),
+        'disciplinas': disciplinas
+    }
     return render(request, template_name='administrador/disciplina_list.html', context=context)
 
 
@@ -149,7 +200,20 @@ def edit_disciplina_view(request, pk: int):
 
 @admin_required
 def create_disciplina_view(request):
-    pass
+    if request.method == 'POST':
+        form = forms.DisciplinaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('administrador_disciplina_list'))
+    else:
+        form = forms.DisciplinaForm()
+    
+    context = {
+        'page_title': 'Cadastrar disciplina',
+        'form': form
+    }
+
+    return render(request, 'administrador/generic_form.html', context)
 
 
 @admin_required

@@ -1,10 +1,36 @@
 {% extends 'aluno/base.html' %}
 
 {% block content %}
-    <div id="content">
-        <h2>Turma: {{ turma.disciplina.nome }}</h2>
-        <h3>Atividades</h3>
-
+    
+        <h1 class="text-2xl font-semibold mb-2">{{ turma.disciplina.nome }}</h1>
+        <h2 class="text-xl font-medium mb-8">Turma {{ turma.semestre }}</h2>
+        
+        <h2 class="text-xl font-medium mb-2">Notícias</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Data</th>
+                    <th></th>
+                </tr>
+            </thead>
+        
+            {% for atividade in turma.atividades.all %}
+            <tr>
+                <td>{{ atividade.titulo }}</td>
+                <td>{{ atividade.data_limite }}</td>
+                <td><a href="{% url 'aluno_atividade_details' atividade.id %}">Acessar</a></td>
+            </tr>
+            {% empty %}
+                <tr>
+                    <td>
+                        Não há atividades cadastradas nessa turma.
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <hr class="border-slate-400 w-full max-w-[62%]"/>
+        <h2 class="text-xl font-medium mb-2 mt-8">Atividades</h2>
         <table>
             <thead>
                 <tr>
@@ -23,12 +49,13 @@
             {% empty %}
                 <tr>
                     <td>
-                        Não há atividades cadastradas nessa turma.
+                        Não há notícias cadastradas nessa turma.
                     </td>
                 </tr>
             {% endfor %}
         </table>
         
+
         <!-- <h3>Sua Frequência</h3>
         <ul>
             {% for frequencia in frequencias %}
@@ -52,6 +79,4 @@
                 <li>Não há notas registradas.</li>
             {% endfor %}
         </ul> -->
-    </div>
-    
 {% endblock%}
