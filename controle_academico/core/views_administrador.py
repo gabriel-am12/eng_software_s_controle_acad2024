@@ -77,7 +77,7 @@ def aluno_create_view(request):
 def aluno_delete_view(request, pk: int):
     if request.method == 'POST':
         aluno = models.Aluno.objects.get(id=pk)
-        aluno.delete()
+        aluno.user.delete()
     
     return redirect(reverse('administrador_aluno_list'))
 
@@ -125,8 +125,12 @@ def turma_create_view(request):
 
 
 @admin_required
-def turma_delete_view(request):
-    pass
+def turma_delete_view(request, pk: int):
+    if request.method == 'POST':
+        turma = models.Turma.objects.get(id=pk)
+        turma.delete()
+    
+    return redirect(reverse('administrador_turma_list'))
 
 # -------------------------------- CRUD CURSO ---------------------------------
 
@@ -172,8 +176,12 @@ def create_curso_view(request):
 
 
 @admin_required
-def delete_curso_view(request):
-    pass
+def delete_curso_view(request, pk: int):
+    if request.method == 'POST':
+        curso = models.Curso.objects.get(id=pk)
+        curso.delete()
+    
+    return redirect(reverse('administrador_turma_list'))
 
 # -------------------------------- CRUD DISCIPLINA ----------------------------
 
@@ -217,5 +225,9 @@ def create_disciplina_view(request):
 
 
 @admin_required
-def delete_disciplina_view(request):
-    pass
+def delete_disciplina_view(request, pk: int):
+    if request.method == 'POST':
+        turma = models.Disciplina.objects.get(id=pk)
+        turma.delete()
+    
+    return redirect(reverse('administrador_disciplina_list'))
