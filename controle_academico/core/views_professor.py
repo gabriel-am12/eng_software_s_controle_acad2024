@@ -73,9 +73,13 @@ def registrar_notas_view(request: HttpRequest, turma_id: int):
                 aluno = Aluno.objects.get(pk=aluno_id)
                 avaliacao=int(k[4])
 
-                nota, created = Nota.objects.get_or_create(aluno=aluno, turma=turma, avaliacao=avaliacao)
-                nota.nota = int(v)
-                
+                nota = Nota.objects.filter(aluno=aluno, turma=turma, avaliacao=avaliacao).first()
+
+                if nota == None:
+                    nota = Nota(aluno=aluno, turma=turma, avaliacao=avaliacao, nota=int(v))
+                else:
+                    nota.nota = int(v)
+                    
                 nota.save()
     
     context = {
