@@ -9,6 +9,7 @@
             <th>Nome</th>
             <th>Carga horária</th>
             <th>Acessar</th>
+            <th>Excluir</th>
         </tr>
     </thead>
 
@@ -24,8 +25,41 @@
             >
                 Acessar
             </a>
-            </td>
+        </td>
+        <td>
+            <button
+                class="rounded border bg-white text-red-500 border-red-500 px-2 py-1 hover:bg-red-400 hover:text-white"
+                href="{% url 'administrador_disciplina_delete' disciplina.id %}"
+                onclick="deleteDisciplina({{ disciplina.id }})"
+            >
+                <i class="bi bi-trash"></i> Delete
+            </button>
+        </td>
     </tr>
     {% endfor %}
 </table>
+{% endblock %}
+
+
+{% block dialogs %}
+<div id="deleteConfirmation" class="bg-white rounded-lg border border-gray-400 p-3 text-black">
+    <form id="formDeleteConfirmation" class=" w-56 h-24 flex justify-between flex-col mt-2" method="post">
+        {% csrf_token %}
+        <h2 class="font-bold text-xl mb-4 w-full text-center">Deletar disciplina?</h2>
+        <div class="flex gap-2">
+            <button type="button" class="bg-gray-400 hover:bg-gray-500 rounded px-2 py-1 text-white font-medium w-full" onclick="toggleModal('deleteConfirmation')">Cancelar</button>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 rounded px-2 py-1 text-white font-medium w-full">Confirmar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function deleteDisciplina(id) {
+        const form = document.getElementById("formDeleteConfirmation");
+        form.action = `/administrador/disciplinas/${id}/delete`;
+        toggleModal('deleteConfirmation');
+    }
+</script>
 {% endblock %}

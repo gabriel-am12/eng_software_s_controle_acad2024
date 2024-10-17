@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Perfil, Curso, Disciplina, Turma, Professor, Aluno, Frequencia, Nota, Atividade
+from .models import Perfil, Curso, Disciplina, Turma, Professor, Aluno, Frequencia, Nota, Atividade, Noticia
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -100,4 +100,13 @@ class AtividadeForm(forms.ModelForm):
         fields = ['turma', 'titulo', 'conteudo', 'data_limite', 'arquivos']
         widgets = {
             'data_limite': DateInput(),
+        }
+
+
+class NoticiaForm(forms.ModelForm):
+    class Meta:
+        model = Noticia
+        fields = ['turma', 'titulo', 'conteudo', 'data']
+        widgets = {
+            'data': DateInput(),
         }

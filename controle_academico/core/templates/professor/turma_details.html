@@ -13,22 +13,24 @@
       
 <hr class="border-slate-400 w-full mb-8"/>
 
-<h2 class="text-xl font-medium mb-2">Notícias</h2>
-<button class="px-2 py-1 rounded border border-green-500 text-green-500">+ Adicionar notícia</button>
+<div class="flex gap-4 items-center">
+    <h2 class="text-xl font-medium mb-2">Notícias</h2>
+    <button type="button" class="h-fit p-1 px-2 bg-white text-nowrap border border-green-500 text-green-500 rounded hover:bg-green-400 hover:text-white transition-colors duration-100" onclick="location.href='{% url 'professor_turma_cadastrar_noticia' turma.id%}'">+ Add</button>        
+</div>
 <table>
     <thead>
         <tr>
             <th>Título</th>
+            <th>Conteúdo</th>
             <th>Data</th>
-            <th></th>
         </tr>
     </thead>
 
     {% for noticia in turma.noticias.all %}
     <tr>
         <td>{{ noticia.titulo }}</td>
+        <td>{{ noticia.conteudo }}</td>
         <td>{{ noticia.data }}</td>
-        <td><a href="{% url 'professor_noticia_details' atividade.id %}">Acessar</a></td>
     </tr>
     {% empty %}
         <tr>

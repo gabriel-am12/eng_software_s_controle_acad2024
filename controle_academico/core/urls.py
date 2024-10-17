@@ -25,6 +25,8 @@ urlpatterns = [
     path('professor/turmas/<int:turma_id>/atividades', views_professor.turma_atividade_list_view, name='professor_turma_atividade_list'),
     path('professor/turmas/<int:turma_id>/frequencia', views_professor.registrar_frequencia_view, name='professor_registrar_frequencia'),
     path('professor/turmas/<int:turma_id>/notas', views_professor.registrar_notas_view, name='professor_registrar_nota'),
+    path('professor/turmas/<int:turma_id>/noticias/create', views_professor.noticia_create_view, name='professor_turma_cadastrar_noticia'),
+    
     # Atividade
     path('professor/atividades/create', views_professor.atividade_create_view, name='professor_atividade_create'),
     path('professor/atividades/<int:pk>/', views_professor.atividade_create_view, name='professor_atividade_details'),
