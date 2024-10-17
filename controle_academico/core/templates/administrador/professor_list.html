@@ -4,26 +4,21 @@
 <table>
     <thead>
         <tr>
-            <th>Matrícula</th>
             <th>Nome</th>
             <th>Email</th>
-            <th>Telefone</th>
             <th>Acessar</th>
             <th>Deletar</th>
-
         </tr>
     </thead>
 
-    {% for aluno in alunos %}
+    {% for professor in professores %}
     <tr>
-        <td>{{ aluno.matricula }}</td>
-        <td>{{ aluno.nome }}</td>
-        <td>{{ aluno.email }}</td>
-        <td>{{ aluno.telefone }}</td>
+        <td>{{ professor.nome }}</td>
+        <td>{{ professor.email }}</td>
         <td>
             <a 
                 class="rounded border bg-white text-blue-500 border-blue-500 p-2 hover:bg-blue-400 hover:no-underline hover:text-white"
-                href="{% url 'administrador_aluno_details' aluno.id %}"
+                href="{% url 'administrador_professor_details' professor.id %}"
             >
                 <i class="bi bi-arrow-right"></i> Acessar
             </a>
@@ -31,8 +26,7 @@
         <td>
             <button
                 class="rounded border bg-white text-red-500 border-red-500 px-2 py-1 hover:bg-red-400 hover:text-white"
-                href="{% url 'administrador_aluno_delete' aluno.id %}"
-                onclick="deleteAluno({{ aluno.id }})"
+                onclick="deleteProfessor({{ professor.id }})"
             >
                 <i class="bi bi-trash"></i> Delete
             </button>
@@ -47,12 +41,12 @@
 {% endblock %}
 
 {% block dialogs %}
-<div id="deleteAluno" class="bg-white rounded-lg border border-gray-400 p-3 text-black">
-    <form id="formDeleteAluno" class=" w-56 h-24 flex justify-between flex-col mt-2" method="post">
+<div id="deleteProfessor" class="bg-white rounded-lg border border-gray-400 p-3 text-black">
+    <form id="formDeleteProfessor" class=" w-56 h-24 flex justify-between flex-col mt-2" method="post">
         {% csrf_token %}
         <h2 class="font-bold text-xl mb-4 w-full text-center">Deletar usuário?</h2>
         <div class="flex gap-2">
-            <button type="button" class="bg-gray-400 hover:bg-gray-500 rounded px-2 py-1 text-white font-medium w-full" onclick="toggleModal('deleteAluno')">Cancelar</button>
+            <button type="button" class="bg-gray-400 hover:bg-gray-500 rounded px-2 py-1 text-white font-medium w-full" onclick="toggleModal('deleteProfessor')">Cancelar</button>
             <button type="submit" class="bg-red-600 hover:bg-red-700 rounded px-2 py-1 text-white font-medium w-full">Confirmar</button>
         </div>
     </form>
@@ -61,10 +55,10 @@
 
 {% block scripts %}
 <script>
-    function deleteAluno(aluno_id) {
-        const formDeleteAluno = document.getElementById("formDeleteAluno");
-        formDeleteAluno.action = `/administrador/alunos/${aluno_id}/delete`;
-        toggleModal('deleteAluno');
+    function deleteProfessor(professor_id) {
+        const formDelete = document.getElementById("formDeleteProfessor");
+        formDelete.action = `/administrador/professor/${professor_id}/delete`;
+        toggleModal('deleteProfessor');
     }
 </script>
 {% endblock %}

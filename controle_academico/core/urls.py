@@ -45,6 +45,13 @@ urlpatterns = [
     path('administrador/alunos/<int:pk>/edit', views_administrador.aluno_update_view, name='administrador_aluno_update'),
     path('administrador/alunos/<int:pk>/delete', views_administrador.aluno_delete_view, name='administrador_aluno_delete'),
 
+    # Professor
+    path('administrador/professor/', views_administrador.professor_list_view, name='administrador_professor_list'),
+    path('administrador/professor/create', views_administrador.professor_create_view, name='administrador_professor_create'),
+    path('administrador/professor/<int:pk>', views_administrador.professor_details_view, name='administrador_professor_details'),
+    path('administrador/professor/<int:pk>/edit', views_administrador.professor_update_view, name='administrador_professor_update'),
+    path('administrador/professor/<int:pk>/delete', views_administrador.professor_delete_view, name='administrador_professor_delete'),
+
     # Turma
     path('administrador/turmas/', views_administrador.turma_list_view, name='administrador_turma_list'),
     path('administrador/turmas/create', views_administrador.turma_create_view, name='administrador_turma_create'),

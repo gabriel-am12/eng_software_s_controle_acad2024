@@ -1,0 +1,9 @@
+{% extends 'administrador/base.html' %}
+
+{% block content %}
+<div>
+    <h2 class="text-center text-xl font-semibold mb-8">Detalhes do professor</h2>
+    <p>Nome: {{ professor.nome }}</p>
+    <p>Email: {{ professor.email }}</p>
+</div>
+{% endblock %}

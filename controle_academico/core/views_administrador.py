@@ -87,6 +87,84 @@ def aluno_delete_view(request: HttpRequest, pk: int):
     
     return redirect(reverse('administrador_aluno_list'))
 
+# ------------------------------ CRUD PROFESSOR -------------------------------
+
+@admin_required
+def professor_list_view(request: HttpRequest):
+    q = request.GET.get('q')
+
+    if q is None:
+        professores = models.Professor.objects.all()
+    else:
+        professores = models.Professor.objects.filter(nome__contains=q)
+        
+    context = {
+        'page_title': 'Lista de professores',
+        'add_link': reverse('administrador_professor_create'),
+        'professores': professores, 
+    }
+    return render(request, template_name='administrador/professor_list.html', context=context)
+
+
+@admin_required
+def professor_details_view(request: HttpRequest, pk: int):
+    professor = get_object_or_404(models.Professor, pk=pk)
+    context = {'professor': professor}
+    return render(request, template_name='administrador/professor_details.html', context=context)
+
+
+@admin_required
+def professor_update_view(request: HttpRequest, pk: int):
+    pass
+
+
+@admin_required
+def professor_create_view(request: HttpRequest):
+    if request.method == 'POST':
+        form = forms.ProfessorForm(request.POST)
+        
+        if form.is_valid():
+            data = form.clean()
+            
+            user = get_user_model().objects.create_user(
+                username=data["username"],
+                email=data["email"],
+                password=data["password"]
+            )
+            user.save()
+
+            perfil = models.Perfil.objects.create(
+                user=user,
+                user_type='teacher'
+            )
+            perfil.save()
+
+            professor = form.save()
+            professor.user = user
+            professor.profile = perfil
+            professor.save()
+            
+            return redirect(reverse('administrador_professor_list'))
+    else:
+        form = forms.ProfessorForm()
+    
+    context = {
+        'page_title': 'Cadastrar professor',
+        'form': form
+    }
+
+    return render(request, 'administrador/generic_form.html', context)
+
+
+@admin_required
+def professor_delete_view(request: HttpRequest, pk: int):
+    if request.method == 'POST':
+        prof = models.Professor.objects.get(id=pk)
+        prof.user.delete()
+    
+    return redirect(reverse('administrador_professor_list'))
+
+
 # -------------------------------- CRUD TURMA ---------------------------------
 
 @admin_required
