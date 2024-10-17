@@ -1,18 +1,62 @@
 {% extends 'professor/base.html' %}
 
-{% block sidebar_links %}
-<li><a href="#">Notícias</a></li>
-<li><a href="#">Atividades</a></li>
-<li><a href="#">Frequencia</a></li>
-{% endblock %}
-
 {% block content %}
-<h2>Turma {{ turma.id }}</h2>
-<h3>
-    {{ turma.disciplina.nome }}
-</h3>
+<div class="mb-12">
+    <h1 class="text-2xl font-semibold mb-2">{{ turma.disciplina.nome }}</h1>
+    <h2 class="text-xl font-medium mb-8">Turma {{ turma.semestre }}</h2>
 
-<div>
-    <h3>content</h3>
+    <div class="flex justify-center">
+        <a href="frequencia" class="px-4 py-2 bg-yellow-100 hover:bg-yellow-200 border border-yellow-700 rounded-l-md border-r-0 hover:no-underline">Registros de frequência</a>
+        <a href="notas" class="px-4 py-2 bg-yellow-100 hover:bg-yellow-200 border border-yellow-700 rounded-r-md hover:no-underline">Registros de notas</a>
+    </div>
 </div>
+      
+<hr class="border-slate-400 w-full mb-8"/>
+
+<h2 class="text-xl font-medium mb-2">Notícias</h2>
+<button class="px-2 py-1 rounded border border-green-500 text-green-500">+ Adicionar notícia</button>
+<table>
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Data</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    {% for noticia in turma.noticias.all %}
+    <tr>
+        <td>{{ noticia.titulo }}</td>
+        <td>{{ noticia.data }}</td>
+        <td><a href="{% url 'professor_noticia_details' atividade.id %}">Acessar</a></td>
+    </tr>
+    {% empty %}
+        <tr>
+            <td colspan="3">Não há notícias cadastradas nessa turma.</td>
+        </tr>
+    {% endfor %}
+</table>
+<hr class="border-slate-400 w-full mt-4"/>
+<h2 class="text-xl font-medium mb-2 mt-8">Atividades</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Data limite</th>
+            <th>Acessar</th>
+        </tr>
+    </thead>
+
+    {% for atividade in turma.atividades.all %}
+    <tr>
+        <td>{{ atividade.titulo }}</td>
+        <td>{{ atividade.data_limite }}</td>
+        <td><a href="{% url 'professor_atividade_details' atividade.id %}">Acessar</a></td>
+    </tr>
+    {% empty %}
+        <tr>
+            <td colspan="3">Não há atividades cadastradas nessa turma.</td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock %}

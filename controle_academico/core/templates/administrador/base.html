@@ -27,11 +27,31 @@
         
     </header>
 
-    <main class="h-full flex-grow px-4 py-8 text-center items-center flex flex-col max-w-4/5">
-        {% block content %}
-        {% endblock %}
+    <main class="flex">
+        <div class="sticky top-0 w-[250px] h-screen bg-neutral-50 border-r border-neutral-300">
+            <ul>
+                <li class="px-4 py-2 hover:bg-slate-300 rounded m-4 hover:text-white transition-colors duration-100" >
+                    <a href="{% url 'administrador_curso_list' %}">Gerenciar Cursos</a>
+                </li>
+                <li class="px-4 py-2 hover:bg-slate-300 rounded m-4 hover:text-white transition-colors duration-100">
+                    <a href="{% url 'administrador_disciplina_list' %}">Gerenciar Disciplinas</a>
+                </li>
+                <li class="px-4 py-2 hover:bg-slate-300 rounded m-4 hover:text-white transition-colors duration-100">
+                    <a href="{% url 'administrador_turma_list' %}">Gerenciar Turmas</a>
+                </li>
+                <li class="px-4 py-2 hover:bg-slate-300 rounded m-4 hover:text-white transition-colors duration-100">
+                    <a href="{% url 'administrador_aluno_list' %}">Gerenciar Alunos</a>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="p-4 pb-20 w-full flex flex-col items-center">
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
-    
+
+
     <footer class="border-t border-neutral-300 bg-neutral-200 text-neutral-700 pt-10 pb-20">
         <p>&copy; 2024 Sistema de Controle Acadêmico</p>
     </footer>

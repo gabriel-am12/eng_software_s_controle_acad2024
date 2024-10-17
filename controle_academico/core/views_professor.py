@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.http import HttpRequest
 
 from .decorators import teacher_required
-from .models import Professor, Atividade
+from .models import Professor, Atividade, Turma
 from .forms import AtividadeForm
 
 @teacher_required
@@ -60,13 +60,35 @@ def turma_atividade_list_view(request: HttpRequest, turma_id: int):
 
 
 @teacher_required
-def registrar_notas_view(request):
-    pass
+def registrar_notas_view(request, turma_id: int):
+    turma = Turma.objects.get(id=turma_id)
+    
+    context = {
+        'turma': turma,
+        'alunos': turma.alunos.all(),
+    }
+
+    return render(
+        request=request,
+        template_name='professor/registrar_nota.html',
+        context=context
+    )
 
 
 @teacher_required
-def registrar_frequencia_view(request):
-    pass
+def registrar_frequencia_view(request, turma_id: int):
+    turma = Turma.objects.get(id=turma_id)
+    
+    context = {
+        'turma': turma,
+        'alunos': turma.alunos.all(),
+    }
+
+    return render(
+        request=request,
+        template_name='professor/registrar_frequencia.html',
+        context=context
+    )
 
 # -----------------------------------------------------------------------------
 

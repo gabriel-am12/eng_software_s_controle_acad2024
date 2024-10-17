@@ -1,10 +1,21 @@
 {% extends 'aluno/base.html' %}
 
-{% block content %}
-    
+{% block main %}
+<main class="flex">
+    <div class="sticky top-0 w-[250px] h-screen bg-neutral-50 border-r border-neutral-300">
+        <ul>
+            <li class="px-4 py-2 hover:bg-slate-300 rounded m-4 hover:text-white transition-colors duration-100 font-medium">
+                <a href="{% url 'aluno_turma_details' turma.id %}">Turma</a>
+            </li>
+            <li class="px-4 py-2 hover:bg-slate-300 rounded m-4 hover:text-white transition-colors duration-100">
+                <a href="{% url 'aluno_turma_boletim' turma.id %}">Boletim</a>
+            </li>
+        </ul>
+    </div>
+    <div class="p-4 pb-20 w-full flex flex-col items-center">
         <h1 class="text-2xl font-semibold mb-2">{{ turma.disciplina.nome }}</h1>
         <h2 class="text-xl font-medium mb-8">Turma {{ turma.semestre }}</h2>
-        
+        <hr class="border-neutral-300 w-full my-8"/>
         <h2 class="text-xl font-medium mb-2">Notícias</h2>
         <table>
             <thead>
@@ -29,7 +40,7 @@
                 </tr>
             {% endfor %}
         </table>
-        <hr class="border-slate-400 w-full max-w-[62%]"/>
+        <hr class="border-neutral-300 w-full mt-8"/>
         <h2 class="text-xl font-medium mb-2 mt-8">Atividades</h2>
         <table>
             <thead>
@@ -54,29 +65,6 @@
                 </tr>
             {% endfor %}
         </table>
-        
-
-        <!-- <h3>Sua Frequência</h3>
-        <ul>
-            {% for frequencia in frequencias %}
-                <li>{{ frequencia.data }}: 
-                    {% if frequencia.presente %}
-                        Presente
-                    {% else %}
-                        Ausente
-                    {% endif %}
-                </li>
-            {% empty %}
-                <li>Não há registros de frequência.</li>
-            {% endfor %}
-        </ul> -->
-    
-        <!-- <h3>Suas Notas</h3>
-        <ul>
-            {% for nota in notas %}
-                <li>{{ nota.turma.disciplina.nome }} - Avaliação {{ nota.avaliacao }}: {{ nota.nota }}</li>
-            {% empty %}
-                <li>Não há notas registradas.</li>
-            {% endfor %}
-        </ul> -->
-{% endblock%}
+    </div>
+</main>
+{% endblock %}
