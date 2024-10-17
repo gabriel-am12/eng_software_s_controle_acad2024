@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.http import HttpRequest
 
 from .decorators import teacher_required
-from .models import Professor, Atividade, Turma
+from .models import Professor, Atividade, Turma, Aluno, Nota
 from .forms import AtividadeForm, NoticiaForm
 
 @teacher_required
@@ -60,8 +60,23 @@ def turma_atividade_list_view(request: HttpRequest, turma_id: int):
 
 
 @teacher_required
-def registrar_notas_view(request, turma_id: int):
+def registrar_notas_view(request: HttpRequest, turma_id: int):
     turma = Turma.objects.get(id=turma_id)
+
+    if request.POST:
+        fields = request.POST.dict()
+        fields.pop('csrfmiddlewaretoken')
+        
+        for k, v in fields.items():
+            if v:
+                aluno_id = k.split('-')[1]
+                aluno = Aluno.objects.get(pk=aluno_id)
+                avaliacao=int(k[4])
+
+                nota, created = Nota.objects.get_or_create(aluno=aluno, turma=turma, avaliacao=avaliacao)
+                nota.nota = int(v)
+                
+                nota.save()
     
     context = {
         'turma': turma,

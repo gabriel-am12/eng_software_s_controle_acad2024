@@ -16,30 +16,31 @@
         <h1 class="text-2xl font-semibold mb-2">{{ turma.disciplina.nome }}</h1>
         <h2 class="text-xl font-medium mb-8">Turma {{ turma.semestre }}</h2>
         <hr class="border-neutral-300 w-full my-8"/>
+
         <h2 class="text-xl font-medium mb-2">Notícias</h2>
+
         <table>
             <thead>
                 <tr>
                     <th>Título</th>
+                    <th>Conteúdo</th>
                     <th>Data</th>
-                    <th></th>
                 </tr>
             </thead>
-        
-            {% for atividade in turma.atividades.all %}
+
+            {% for noticia in turma.noticias.all %}
             <tr>
-                <td>{{ atividade.titulo }}</td>
-                <td>{{ atividade.data_limite }}</td>
-                <td><a href="{% url 'aluno_atividade_details' atividade.id %}">Acessar</a></td>
+                <td>{{ noticia.titulo }}</td>
+                <td>{{ noticia.conteudo }}</td>
+                <td>{{ noticia.data }}</td>
             </tr>
             {% empty %}
                 <tr>
-                    <td>
-                        Não há atividades cadastradas nessa turma.
-                    </td>
+                    <td colspan="3">Não há notícias cadastradas nessa turma.</td>
                 </tr>
             {% endfor %}
         </table>
+        
         <hr class="border-neutral-300 w-full mt-8"/>
         <h2 class="text-xl font-medium mb-2 mt-8">Atividades</h2>
         <table>

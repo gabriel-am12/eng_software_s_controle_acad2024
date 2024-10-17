@@ -3,7 +3,8 @@
 {% block content %}
     <h1>Registrar nota</h1>
 
-    <form class="w-2/5">
+    <form class="w-2/5" method="post">
+        {% csrf_token %}
         <table>
             <tr>
                 <th>Aluno</th>
